@@ -2,14 +2,18 @@
   "name": "vue-collection",
   "version": "0.1.0",
   "private": true,
+  "main": "src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-popperjs": "^2.3.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
