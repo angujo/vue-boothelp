@@ -1,7 +1,9 @@
 export default {
     title: "",
     key: "",
+    autoKey: false,
     component: null,
+    events: {},
     func(r) {
         return r
     },

@@ -1,6 +1,6 @@
 <template>
   <tbody>
-  <body-row v-for="(d,i) in data" :key="'i'+i+key" :data="d" :columns="columns"></body-row>
+  <body-row v-for="(d,i) in cData" :key="'i'+i+key" :data="d" :columns="columns"></body-row>
   </tbody>
 </template>
 
@@ -8,11 +8,14 @@
 import ColumnOptions from "./helpers/ColumnOptions";
 import BodyRow       from "./BodyRow";
 
+const axios = require('axios');
+
 export default {
   name: "TableBody",
   components: {BodyRow},
+  props: {nonce: Boolean, url: String, data: Array, isNonce: Boolean},
   data() {
-    return {isNonce: false, data: []}
+    return {cData: []}
   },
   methods: {
     getData() {
@@ -28,7 +31,7 @@ export default {
       }
       axios.get(this.url)
            .then(resp => {
-             this.data = Array.isArray(resp.data) ? resp.data : resp.data.data;
+             this.cData = Array.isArray(resp.data) ? resp.data : resp.data.data;
            })
            .catch(err => {
            })
@@ -40,25 +43,23 @@ export default {
     key() {
       return "tbr" + Math.floor(Math.random() * 100000);
     },
-    url() {
-      return this.$parent.$parent.url.toString().trim().length <= 0 ? this.$parent.$parent.url.toString().trim() :
-          (this.$parent.$parent.nonceUrl.toString().trim().length ? this.$parent.$parent.nonceUrl.toString().trim() : null);
-    },
     columns() {
       return this.$parent.$parent.columns.map((c) => {
         let col =
             (
-                ({key, component, func, props, empty}) =>
-                    ({key, component, func, props, empty})
-            )(Object.assign({}, ColumnOptions, c));
-        if (!col.key) col.key = "tb" + Math.floor(Math.random() * 100000);
-        return col;
+                ({key, component, func, props, empty, events}) =>
+                    ({key, component, func, props, empty, events})
+            )(c);
+        if (!col.key) {
+          col.key = "tb" + Math.floor(Math.random() * 100000);
+          col.autoKey = true;
+        }
+        if (!col.empty) col.empty = ColumnOptions.empty;
+        return Object.fromEntries(Object.entries(col).filter(([k, v]) => (typeof v !== 'undefined')));
       });
     },
   },
   mounted() {
-    console.log(Object.keys(this.$parent.$parent))
-   // this.isNonce = this.$parent.$parent._props.url.toString().trim().length <= 0 && this.$parent.$parent._props.nonceUrl.toString().trim().length;
     this.getData();
   }
 };

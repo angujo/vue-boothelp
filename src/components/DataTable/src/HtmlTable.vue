@@ -1,7 +1,7 @@
 <template>
   <table class="table table-bordered">
     <table-head></table-head>
-    <table-body></table-body>
+    <table-body :url="url" :data="data" :nonce="nonce"></table-body>
     <table-foot></table-foot>
   </table>
 </template>
@@ -13,7 +13,8 @@ import TableFoot from "./TableFoot";
 
 export default {
   name: "HtmlTable",
-  components: { TableFoot, TableBody, TableHead },
+  components: {TableFoot, TableBody, TableHead},
+  props: {url: String, data: Array, nonce: Boolean}
 };
 </script>
 

@@ -14,10 +14,11 @@ export default {
   computed: {
     merge() {
       return this.columns.map((c, i) => {
-        return {cellData: this.cleanData[i], column: c};
+        return {cellData: Array.isArray(this.cleanData) ? this.cleanData[i] : this.cleanData, column: c};
       });
     },
     cleanData() {
+      if (!Array.isArray(this.data)) return this.data;
       let dt = !Array.isArray(this.data) ? Object.values(this.data) : this.data;
       if (dt.length > this.columns.length) {
         dt = dt.slice(0, -(dt.length - this.columns.length));
