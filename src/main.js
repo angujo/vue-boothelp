@@ -3,13 +3,13 @@ import mitt            from 'mitt';
 
 const ComponentLibrary = {
     // eslint-disable-next-line no-unused-vars
-    install(Vue, options = {}) {
-        Vue.prototype.$mitt=mitt();
+    install(app, options = {}) {
+        app.config.globalProperties.$mitt=mitt();
         // components
         for (const componentName in components) {
             const component = components[componentName];
 
-            Vue.component(component.name, component);
+            app.component(component.name, component);
         }
     },
 };
