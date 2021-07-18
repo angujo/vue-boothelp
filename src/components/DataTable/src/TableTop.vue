@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-between align-items-center flex-nowrap">
+  <div class="d-flex justify-content-between align-items-center flex-nowrap p-2">
     <div>
       <div class="small text-nowrap col-auto small" v-if="!noCounts">
         Show
@@ -11,8 +11,8 @@
     </div>
     <div>
       <div class="d-flex align-items-center" v-if="!$parent.noSearch">
-        Search <input type="text" class="form-control form-control-sm"/>
-        <button type="button" class="btn"><i class="bi-search"></i></button>
+        Search <input type="text" class="form-control form-control-sm" v-model="search" @keyup.enter="doSearch"/>
+        <button type="button" class="btn" @click="doSearch"><i class="bi-search"></i></button>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
     pageSizes: Array,
   },
   data() {
-    return {pageCount: null, counts: this.pageSizes}
+    return {pageCount: null, counts: this.pageSizes, search: null}
   },
   methods: {
     cleanCounts() {
@@ -36,11 +36,24 @@ export default {
         return;
       }
       this.pageCount = this.counts.find(c => c > 0);
+    },
+    doSearch() {
+      let p = {};
+      p[this.searchVar] = this.search.trim();
+      this.$mitt.emit('onSearch', p);
     }
   },
   computed: {
     noCounts() {
       return this.$parent.noPageSize || this.counts.length === 1
+    },
+    searchVar() {
+      return this.$parent.searchVar;
+    }
+  },
+  watch: {
+    pageCount(v) {
+      this.$emit('onCount', v);
     }
   },
   mounted() {
