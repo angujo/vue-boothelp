@@ -2,6 +2,7 @@ import DataLoad        from "./components/DataLoad/DataLoad";
 import DataTable       from "./components/DataTable/DataTable";
 import FormElement     from "./components/FormElement/FormElement";
 import ModalButton     from "./components/ModalButton/ModalButton";
+import ConfirmButton   from "./components/ConfirmButton/ConfirmButton";
 import ProgressOverlay from "./components/ProgressOverlay/ProgressOverlay";
 import Modal           from "./components/Modal/Modal";
 
@@ -17,6 +18,7 @@ export default {
         app.component('data-table', DataTable);
         app.component('form-element', FormElement);
         app.component('modal-button', ModalButton);
+        app.component('confirm-button', ConfirmButton);
         app.component('progress-overlay', ProgressOverlay);
         app.component('modal', Modal);
         /*for (const componentName in components) {
@@ -28,4 +30,4 @@ export default {
 };
 
 
-export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay};
+export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton};

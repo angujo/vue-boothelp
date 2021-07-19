@@ -7,7 +7,7 @@
           <div ref="mhead" class="modal-header d-flex justify-content-between align-items-start" v-if="!frameless && !noHeader">
             <div class="col">
               <slot name="header" :hide="hide">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title" v-html="title"/>
               </slot>
             </div>
             <div class="col-auto">
@@ -55,7 +55,7 @@ export default {
     centered: {type: Boolean, default: false},
     scrollable: {type: Boolean, default: false},
     toggle: {type: Boolean, default: false},
-    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean,
+    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean,title:String,
     fullscreenSm: Boolean, fullscreenMd: Boolean, fullscreenLg: Boolean, fullscreenXl: Boolean, fullscreenXxl: Boolean,
   },
   data() {

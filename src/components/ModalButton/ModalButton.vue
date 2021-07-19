@@ -51,7 +51,7 @@ export default {
     centered: {type: Boolean, default: false},
     scrollable: {type: Boolean, default: false},
     toggle: {type: Boolean, default: false},
-    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean,frameless: Boolean,
+    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean, frameless: Boolean,title: Boolean,
     fullscreenSm: Boolean, fullscreenMd: Boolean, fullscreenLg: Boolean, fullscreenXl: Boolean, fullscreenXxl: Boolean,
   },
   data() {
