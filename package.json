@@ -1,32 +1,46 @@
 {
   "name": "vue-boothelp",
-  "version": "0.1.0",
+  "version": "0.1.4",
+  "description": "A Group of Vue3 component to make life easy",
+  "main": "src/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angujo/vue-boothelp.git"
+  },
+  "author": "Barrack Angujo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angujo/vue-boothelp/issues"
+  },
+  "homepage": "https://github.com/angujo/vue-boothelp",
   "dependencies": {
+    "@popperjs/core": "^2.9.2",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
-    "bootstrap-icons": "^1.5.0",
     "core-js": "^3.6.5",
     "mitt": "^3.0.0",
     "vue": "^3.0.0-beta.1",
     "vue-popperjs": "^2.3.0"
   },
   "devDependencies": {
-    "node-sass": "^4.12.0",
-    "prettier": "^2.2.1",
-    "sass-loader": "^8.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.14.0",
+    "node-sass": "^4.12.0",
+    "prettier": "^2.2.1",
+    "sass-loader": "^8.0.2",
+    "typescript-eslint": "^0.0.1-alpha.0"
   },
   "eslintConfig": {
     "root": true,

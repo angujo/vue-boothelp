@@ -1,21 +1,5 @@
-import * as components from "./components";
-import mitt            from 'mitt';
+import { createApp } from 'vue';
+import App from './../test/App.vue'
 
-const ComponentLibrary = {
-    // eslint-disable-next-line no-unused-vars
-    install(app, options = {}) {
-        app.config.globalProperties.$mitt=mitt();
-        // components
-        for (const componentName in components) {
-            const component = components[componentName];
-
-            app.component(component.name, component);
-        }
-    },
-};
-
-export default ComponentLibrary;
-
-if (typeof window !== "undefined" && window.Vue) {
-    window.Vue.use(ComponentLibrary);
-}
+const v=createApp(App);
+v.mount('#app')

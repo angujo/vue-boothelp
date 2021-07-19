@@ -1,6 +1,6 @@
 <template>
   <form method="post" :action="url" @submit.prevent="submitForm">
-    <slot></slot>
+    <slot>#FormBody</slot>
     <template v-if="false===pureForm">
       <hr v-if="!inline"/>
       <div :class="[inline?'d-inline-flex':'d-flex','justify-content-between align-items-center']">
