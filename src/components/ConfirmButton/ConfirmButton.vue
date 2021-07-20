@@ -18,7 +18,9 @@
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
                      aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
               </div>
-              <div class="small text-danger fst-italic" v-else-if="error"><span v-html="error"/></div>
+              <div class="small text-danger fst-italic" v-else-if="error"><span v-html="error"/>
+                <div class="small fst-italic">Closing in ({{ tTime }})...</div>
+              </div>
               <template v-else>
                 <slot name="body">#ModalBody...</slot>
               </template>
@@ -35,8 +37,9 @@
 </template>
 
 <script>
-import _     from "@/helpers";
-import axios from "axios";
+import _       from "@/helpers";
+import axios   from "axios";
+import helpers from "@/mixin-helper";
 
 export default {
   name: "ConfirmButton",
@@ -46,9 +49,10 @@ export default {
     confirmText: {type: String, default: 'Confirm'}
   },
   data() {
-    return {elm: null, modal: null, progress: false, error: null}
+    return {elm: null, modal: null, progress: false, error: null, tick: null, tTime: 5}
   },
   methods: {
+    ...helpers,
     async getData() {
       this.error = null;
       this.progress = true;
@@ -70,8 +74,13 @@ export default {
             this.hide();
           })
           .catch(er => {
-            this.error = er;
-            this.$emit('error', this.logGetError(er));
+            this.$emit('error', this.error = this.logGetError(er));
+            this.tick = setInterval(() => {
+              this.tTime--;
+              if (this.tTime === 0) {
+                this.hide();
+              }
+            }, 1000);
           })
           .then(d => {
             this.progress = false;
@@ -100,6 +109,11 @@ export default {
     this.elm = this.$refs.cmodal;
     this.modal = new bootstrap.Modal(this.elm, {
       keyboard: true, backdrop: 'static', focus: true
+    });
+    this.elm.addEventListener('hidden.bs.modal', e => {
+      this.tTime = 5;
+      this.error = null;
+      if (this.tick) clearInterval(this.tick);
     });
   }
 }

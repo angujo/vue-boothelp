@@ -2,6 +2,61 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
+        <h3 class="border-bottom border-secondary">Accordions</h3>
+        <div class="mb-4">
+          <div class="row">
+            <div class="col-3">
+              <accordion>
+                <accordion-item title="Accordion 101">
+                  Some ocntent!
+                </accordion-item>
+                <accordion-item title="Accordion 938">
+                  Here Lies the content!
+                </accordion-item>
+              </accordion>
+            </div>
+            <div class="col-3">
+              <accordion open>
+                <accordion-item title="Accordion 101">
+                  Some ocntent!
+                </accordion-item>
+                <accordion-item title="Accordion 938">
+                  Here Lies the content!
+                </accordion-item>
+              </accordion>
+            </div>
+            <div class="col-3">
+              <accordion flush>
+                <accordion-item title="Accordion 101">
+                  Some ocntent!
+                </accordion-item>
+                <accordion-item title="Accordion 938">
+                  Here Lies the content!
+                </accordion-item>
+              </accordion>
+            </div>
+            <div class="col-3">
+              <accordion url="https://jsonplaceholder.typicode.com/users">
+                <template #default="{data}">
+                  <accordion-item :title="data.email">
+                    {{ data }}
+                  </accordion-item>
+                </template>
+              </accordion>
+            </div>
+          </div>
+        </div>
+        <h3 class="border-bottom border-secondary">Tabs</h3>
+        <div>
+          <tabs v-model="tabIndex">
+            <tab title="Tab 101">
+              Some COntent Here
+            </tab>
+            <tab title="Tab 102">
+              Some COntent Here #2
+            </tab>
+          </tabs>
+        </div>
         <h3 class="border-bottom border-secondary">Confirm Buttons</h3>
         <div class="btn-group">
           <confirm-button class="btn-outline-success">Confirm Quick</confirm-button>
@@ -40,10 +95,23 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import ModalButton   from "@/components/ModalButton/ModalButton";
 import DataLoad      from "@/components/DataLoad/DataLoad";
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
+import Tabs          from "@/components/Tabs/Tabs";
+import Tab           from "@/components/Tabs/Tab";
+import {ref}         from "vue";
+import Accordion     from "@/components/Accordion/Accordion";
+import AccordionItem from "@/components/Accordion/AccordionItem";
 
 export default {
   name: "App",
-  components: {DataLoad, ModalButton, ConfirmButton}
+  components: {AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
+  setup() {
+    const tabIndex = ref(0);
+
+    return {tabIndex};
+  },
+  data() {
+    return {}
+  }
 }
 </script>
 

@@ -5,6 +5,8 @@ import ModalButton     from "./components/ModalButton/ModalButton";
 import ConfirmButton   from "./components/ConfirmButton/ConfirmButton";
 import ProgressOverlay from "./components/ProgressOverlay/ProgressOverlay";
 import Modal           from "./components/Modal/Modal";
+import Accordion       from "./components/Accordion/Accordion";
+import AccordionItem   from "./components/Accordion/AccordionItem";
 
 let components = require("./components");
 import mitt            from 'mitt';
@@ -21,6 +23,8 @@ export default {
         app.component('confirm-button', ConfirmButton);
         app.component('progress-overlay', ProgressOverlay);
         app.component('modal', Modal);
+        app.component('accordion', Accordion);
+        app.component('accordion-item', AccordionItem);
         /*for (const componentName in components) {
             const component = components[componentName];
             console.log('Component::', componentName, component.name);
@@ -30,4 +34,4 @@ export default {
 };
 
 
-export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton};
+export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton, Modal, Accordion, AccordionItem};

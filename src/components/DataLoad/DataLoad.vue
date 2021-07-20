@@ -1,6 +1,11 @@
 <template>
   <div class="position-relative">
-    <slot :content="content"></slot>
+    <template v-if="listing">
+      <template v-for="cnt in content">
+        <slot :content="cnt"></slot>
+      </template>
+    </template>
+    <slot v-else :content="content"></slot>
     <div v-if="loading" class="p-5 bg-light d-flex justify-content-center align-items-center">
       <span><i class="bi-gear bi-spin"></i> Loading...</span>
     </div>
@@ -21,7 +26,14 @@ import MixinH from './../../mixin-helper';
 export default {
   name: "DataLoad",
   emits: ['loaded', 'error'],
-  props: {method: {type: String, default: 'get'}, data: Object, headers: Object, params: Object, url: String},
+  props: {
+    method: {type: String, default: 'get'},
+    data: Object,
+    headers: Object,
+    params: Object,
+    url: {type: String, required: true},
+    listing: Boolean
+  },
   data() {
     return {loading: false, content: null, error: null};
   },
@@ -31,7 +43,7 @@ export default {
       this.getData();
     },
     async getData() {
-      this.error=null;
+      this.error = null;
       this.loading = true;
       let p = {}, _p = {},
           h = {'X-Requested-With': 'XMLHttpRequest'};
@@ -46,7 +58,7 @@ export default {
         data: p
       })
           .then(resp => {
-            this.content = resp.data;
+            this.content = this.listing ? (Array.isArray(resp.data) ? resp.data : []) : resp.data;
             this.$emit('loaded', this.content);
           })
           .catch(er => {
@@ -58,6 +70,7 @@ export default {
           });
     }
   },
+  computed: {},
   mounted() {
     if (_.isString(this.url) && this.url) this.getData();
   }
