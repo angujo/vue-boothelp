@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     showEmpty() {
-      return this.emptyCheck && _.isFunction(this.isEmpty) && true === this.isEmpty.call();
+      return this.emptyCheck && this.content && _.isFunction(this.isEmpty) && true === this.isEmpty.call(this,this.content);
     }
   },
   mounted() {
