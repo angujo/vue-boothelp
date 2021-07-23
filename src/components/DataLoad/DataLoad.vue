@@ -1,6 +1,13 @@
 <template>
   <div class="position-relative">
-    <template v-if="listing">
+    <template v-if="showEmpty">
+      <slot name="blank">
+        <div class="p-5 bg-light text-center">
+          <span>No Data Loaded</span>
+        </div>
+      </slot>
+    </template>
+    <template v-else-if="listing">
       <template v-for="cnt in content">
         <slot :content="cnt"></slot>
       </template>
@@ -28,11 +35,17 @@ export default {
   emits: ['loaded', 'error'],
   props: {
     method: {type: String, default: 'get'},
+    isEmpty: {
+      type: Function, default(dt) {
+        return dt.length <= 0;
+      }
+    },
     data: Object,
     headers: Object,
     params: Object,
     url: {type: String, required: true},
-    listing: Boolean
+    listing: Boolean,
+    emptyCheck: {type: Boolean, default: true},
   },
   data() {
     return {loading: false, content: null, error: null};
@@ -70,7 +83,11 @@ export default {
           });
     }
   },
-  computed: {},
+  computed: {
+    showEmpty() {
+      return this.emptyCheck && _.isFunction(this.isEmpty) && true === this.isEmpty.call();
+    }
+  },
   mounted() {
     if (_.isString(this.url) && this.url) this.getData();
   }
