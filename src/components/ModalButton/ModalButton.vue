@@ -4,6 +4,7 @@
     <modal ref="myModal" @hidden="hidden" @hide="modal=false" @shown="$emit('shown')" :toggle="modal" :key="mKey"
            :url="url"
            :iframe-url="iframeUrl"
+           :title="title"
            :frameless="frameless"
            :backdrop="backdrop"
            :keyboard="keyboard"
@@ -51,7 +52,7 @@ export default {
     centered: {type: Boolean, default: false},
     scrollable: {type: Boolean, default: false},
     toggle: {type: Boolean, default: false},
-    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean, frameless: Boolean,title: Boolean,
+    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean, frameless: Boolean, title: String,
     fullscreenSm: Boolean, fullscreenMd: Boolean, fullscreenLg: Boolean, fullscreenXl: Boolean, fullscreenXxl: Boolean,
   },
   data() {

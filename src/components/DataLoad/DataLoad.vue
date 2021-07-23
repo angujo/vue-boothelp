@@ -37,7 +37,7 @@ export default {
     method: {type: String, default: 'get'},
     isEmpty: {
       type: Function, default(dt) {
-        return dt.length <= 0;
+        return dt && dt.length <= 0;
       }
     },
     data: Object,
