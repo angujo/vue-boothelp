@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import _       from "@/helpers";
+import _       from "./../../helpers";
 import axios   from "axios";
-import helpers from "@/mixin-helper";
+import helpers from "./../../mixin-helper";
 
 export default {
   name: "ConfirmButton",

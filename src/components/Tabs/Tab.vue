@@ -1,6 +1,8 @@
 <template>
   <div :class="['tab-pane fade',isActive?'show active':'']" :id="id" role="tabpanel" :aria-labelledby="id+'-tab'">
-    <slot/>
+    <template v-if="showSlot">
+      <slot/>
+    </template>
   </div>
 </template>
 
@@ -10,7 +12,7 @@ import {computed, getCurrentInstance, inject, watchEffect} from "vue";
 
 export default {
   name: "Tab",
-  props: {title: {type: String, default: '#TabTitle'},},
+  props: {title: {type: String, default: '#TabTitle'}, lazy: Boolean},
   setup(props) {
     const instance = getCurrentInstance();
     const {tabs, active} = inject("vcTabs");
@@ -33,6 +35,9 @@ export default {
   computed: {
     id() {
       return 'tab' + _.md5(this.title);
+    },
+    showSlot() {
+      return !this.lazy || (this.lazy && this.isActive);
     }
   }
 };

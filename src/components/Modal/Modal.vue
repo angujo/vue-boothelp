@@ -37,7 +37,7 @@
 <script>
 import _        from './../../helpers';
 import axios    from 'axios';
-import DataLoad from "@/components/DataLoad/DataLoad";
+import DataLoad from "./../DataLoad/DataLoad";
 
 export default {
   name: "Modal",

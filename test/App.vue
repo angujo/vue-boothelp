@@ -2,6 +2,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
+        <h3 class="border-bottom border-secondary">Uploads</h3>
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-3 border border-secondary p-4">
+            <file-input></file-input>
+          </div>
+        </div>
         <h3 class="border-bottom border-secondary">Accordions</h3>
         <div class="mb-4">
           <div class="row">
@@ -100,10 +106,11 @@ import Tab           from "@/components/Tabs/Tab";
 import {ref}         from "vue";
 import Accordion     from "@/components/Accordion/Accordion";
 import AccordionItem from "@/components/Accordion/AccordionItem";
+import FileInput     from "@/components/FileInput/FileInput";
 
 export default {
   name: "App",
-  components: {AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
+  components: {FileInput, AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
   setup() {
     const tabIndex = ref(0);
 

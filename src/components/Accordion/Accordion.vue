@@ -11,7 +11,7 @@
 
 <script>
 import _        from './../../helpers';
-import DataLoad from "@/components/DataLoad/DataLoad";
+import DataLoad from "./../DataLoad/DataLoad";
 
 export default {
   name: "Accordion",
