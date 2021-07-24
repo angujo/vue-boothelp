@@ -1,9 +1,11 @@
 <template>
   <div class="row">
-    <div ref="dropjs" :class="['p-3 drop-bg d-flex border border-1 justify-content-center align-items-center border-secondary border-a',dropClass]">
+    <div ref="dropjs"
+         :class="['p-3 drop-bg d-flex border border-1 justify-content-center align-items-center border-secondary border-a',dropClass]">
       <div class="dz-message" data-dz-message>
         <div v-if="sFile">
-          <i :class="extIcon(sFile.name.split('.').pop())+' icon-drop'"></i>
+          <img :src="imageUrl" v-if="isImage" class="img-fluid" alt="...">
+          <i :class="extIcon(sFile.name.split('.').pop())+' icon-drop'" v-else/>
         </div>
         <template v-else>
           <slot>Click or Drop File</slot>
@@ -216,7 +218,8 @@ export default {
     return {
       dropzone: null,
       isOverrideOptions: false,
-      sFile: null
+      sFile: null,
+      imageUrl: null
     }
   },
   methods: {
@@ -301,14 +304,18 @@ export default {
           if (vm.sFile) this.removeFile(vm.sFile);
           vm.sFile = file;
         }
+        if (vm.isImage) {
+          let FR = new FileReader();
+          FR.onload = function (e) {
+            //if you want to display it somewhere in your previewTemplate
+            vm.imageUrl = e.target.result
+            // temp.find('.my-preview').attr('src',); //setting as src of some img tag with class 'my-preview'
+          };
+          FR.readAsDataURL(vm.sFile);
+        }
         vm.$emit('addedfile', file);
       });
       this.dropzone.on('maxfilesexceeded', function (file) {
-        /*if (!vm.multiple) {
-          this.removeAllFiles();
-          this.addFile(file);
-        }
-        else */
         console.error('ERROR :', 'Max number of files exceeded!')
         vm.$emit('maxfilesexceeded', file);
       });
@@ -351,6 +358,9 @@ export default {
     }
   },
   computed: {
+    isImage() {
+      return this.sFile && ['png', 'jpeg', 'jpg', 'gif'].includes(this.sFile.name.toString().toLowerCase().split('.').pop());
+    },
     internalPreview() {
       return this.multiple && !this.previewsContainer;
     },

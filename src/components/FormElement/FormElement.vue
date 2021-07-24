@@ -21,14 +21,17 @@
 
 <script>
 
-import axios from 'axios';
-import _     from './../../helpers';
+import axios             from 'axios';
+import _                 from './../../helpers';
+import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "FormElement",
   components: {},
+  mixins: [NotificationMixin],
   props: {
-    retainModal: Boolean,
+    method: String,
+    noNotification: Boolean,
     inline: Boolean,
     preventEnter: Boolean,
     pureForm: {type: Boolean, default: false},
@@ -39,25 +42,11 @@ export default {
     url: {type: String, required: true},
     btnClass: {type: String, default: `btn btn-primary`},
     btnText: {type: String, default: `<i class="bi-save"></i> Submit`},
-    preSubmission: {
+    beforeSave: {
       type: Function, default() {
         return true;
       }
     },
-    preRun: {
-      type: Function, default() {
-        return true;
-      }
-    },
-    postRun: {
-      type: Function, default() {
-        return true;
-      }
-    },
-    postSubmission: {
-      type: [Function, String], default(resp) {
-      }
-    }
   },
   data() {
     return {loading: false, params: {}}
@@ -72,10 +61,11 @@ export default {
       else formData.append(key, val);
     },
     submitForm() {
-      if (this.preventEnter || true !== this.preSubmission()) return;
-      if (_.isFunction(this.preRun)) this.preRun();
+      if (this.preventEnter || (_.isFunction(this.beforeSave) && false === this.beforeSave())) return;
       this.loading = true;
-      // if (this.fields.id) this.fields['_method'] = 'PUT';
+      if (this.method && ['put', 'patch', 'delete'].includes(this.method.toString().toLowerCase())) {
+        this.fields['_method'] = this.method.toString().toUpperCase();
+      }
       let headers = {}, formData = this.fields;
       if (this.multiPart) {
         headers = Object.assign({}, headers, {'Content-Type': 'multipart/form-data'});
@@ -86,20 +76,17 @@ export default {
       }
       axios.post(this.url, formData, {headers})
            .then(resp => {
-             if (typeof resp.data === 'string' || resp.data instanceof String) this.$alertify.success(resp.data);
-             if (_.isFunction(this.postSubmission)) this.postSubmission(resp);
-             if (_.isString(this.postSubmission)) {
-               // this.$bus.emit(this.postSubmission);
-             }
+             if (_.isString(resp) && !this.noNotification) this.notifySuccess(resp.data);
              this.loading = false;
+             this.$emit('success', resp.data);
            })
            .catch(error => {
-             //  this.$alertify.error(this.logGetError(error))
-             // if (error.response && error.response.data) this.$alertify.error(error.response.data);
+             if (!this.noNotification) this.notifyError(this.logGetError(error));
              this.loading = false;
+             this.$emit('error', error);
            })
            .then(r => {
-             if (_.isFunction(this.postRun)) this.postRun();
+             this.$emit('complete', ...arguments);
            })
     }
   },
