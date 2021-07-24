@@ -1,22 +1,24 @@
 <template>
-  <form method="post" :action="url" @submit.prevent="submitForm">
-    <slot>#FormBody</slot>
-    <template v-if="false===pureForm">
-      <hr v-if="!inline"/>
-      <div :class="[inline?'d-inline-flex':'d-flex','justify-content-between align-items-center']">
-        <div v-if="!inline">
-          <slot name="buttonsline"></slot>
+  <progress-overlay :loading="fetching">
+    <form method="post" :action="url" @submit.prevent="submitForm">
+      <slot>#FormBody</slot>
+      <template v-if="false===pureForm">
+        <hr v-if="!inline"/>
+        <div :class="[inline?'d-inline-flex':'d-flex','justify-content-between align-items-center']">
+          <div v-if="!inline">
+            <slot name="buttonsline"></slot>
+          </div>
+          <div class="btn-group">
+            <slot name="prebuttons"></slot>
+            <button type="submit" :class="btnClass" :loading="loading" v-if="showButton" :inactive="inactiveButton">
+              <span v-html="btnText"></span>
+            </button>
+            <slot name="buttons"></slot>
+          </div>
         </div>
-        <div class="btn-group">
-          <slot name="prebuttons"></slot>
-          <button type="submit" :class="btnClass" :loading="loading" v-if="showButton" :inactive="inactiveButton">
-            <span v-html="btnText"></span>
-          </button>
-          <slot name="buttons"></slot>
-        </div>
-      </div>
-    </template>
-  </form>
+      </template>
+    </form>
+  </progress-overlay>
 </template>
 
 <script>
@@ -24,12 +26,14 @@
 import axios             from 'axios';
 import _                 from './../../helpers';
 import NotificationMixin from "./../Notification/NotificationMixin";
+import ProgressOverlay   from "./../ProgressOverlay/ProgressOverlay";
 
 export default {
   name: "FormElement",
-  components: {},
+  components: {ProgressOverlay},
   mixins: [NotificationMixin],
   props: {
+    loadUrl: {type: String, default: null},
     method: String,
     noNotification: Boolean,
     inline: Boolean,
@@ -49,9 +53,24 @@ export default {
     },
   },
   data() {
-    return {loading: false, params: {}}
+    return {loading: false, params: {}, fetching: false}
   },
   methods: {
+    loadData() {
+      this.fetching = true;
+      axios.get(this.loadUrl)
+           .then(resp => {
+             this.$emit('loaded', resp.data);
+           })
+           .catch(error => {
+             if (!this.noNotification) this.notifyError(this.logGetError(error));
+             this.$emit('loadError', error);
+           })
+           .then(r => {
+             this.$emit('loadComplete', ...arguments);
+             this.fetching = false;
+           })
+    },
     fDataValue(formData, key, val) {
       if (Array.isArray(val)) {
         for (let f = 0; f < val.length; f++) {
@@ -77,20 +96,20 @@ export default {
       axios.post(this.url, formData, {headers})
            .then(resp => {
              if (_.isString(resp) && !this.noNotification) this.notifySuccess(resp.data);
-             this.loading = false;
              this.$emit('success', resp.data);
            })
            .catch(error => {
              if (!this.noNotification) this.notifyError(this.logGetError(error));
-             this.loading = false;
              this.$emit('error', error);
            })
            .then(r => {
              this.$emit('complete', ...arguments);
+             this.loading = false;
            })
     }
   },
   mounted() {
+    if (this.loadUrl && _.isString(this.loadUrl)) this.loadData();
   }
 }
 </script>
