@@ -1,4 +1,8 @@
 export default {
+    stripTags(str) {
+        if (!this.isString(str)) return null;
+        return str.replace(/(<([^>]+)>)/gi, "");
+    },
     mathRand(prefix) {
         prefix = prefix || 0;
         return prefix + Math.floor(Math.random() * 100000);
@@ -19,8 +23,8 @@ export default {
     isString(obj) {
         return obj && typeof obj === 'string';
     },
-    hasIndex(arr,index) {
-        return Array.isArray(arr) && !this.isType(arr[index],'undefined');
+    hasIndex(arr, index) {
+        return Array.isArray(arr) && !this.isType(arr[index], 'undefined');
     },
     isInt(obj) {
         return Number.isInteger(obj) || (!isNaN(obj) && parseInt(obj) == obj);
@@ -71,10 +75,12 @@ export default {
             if (lX4 | lY4) {
                 if (lResult & 0x40000000) {
                     return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
-                } else {
+                }
+                else {
                     return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
                 }
-            } else {
+            }
+            else {
                 return (lResult ^ lX8 ^ lY8);
             }
         }
@@ -237,10 +243,12 @@ export default {
                 var c = _string.charCodeAt(n);
                 if (c < 128) {
                     utftext += String.fromCharCode(c);
-                } else if ((c > 127) && (c < 2048)) {
+                }
+                else if ((c > 127) && (c < 2048)) {
                     utftext += String.fromCharCode((c >> 6) | 192);
                     utftext += String.fromCharCode((c & 63) | 128);
-                } else {
+                }
+                else {
                     utftext += String.fromCharCode((c >> 12) | 224);
                     utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                     utftext += String.fromCharCode((c & 63) | 128);

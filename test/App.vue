@@ -3,10 +3,23 @@
     <div class="row">
       <div class="col">
         <h3 class="border-bottom border-secondary">Uploads</h3>
-        <div class="row">
-          <div class="col-sm-6 col-md-4 col-lg-3 border border-secondary p-4">
-            <file-input></file-input>
-          </div>
+        <div class="">
+          <file-input :auto-process-queue="true">
+            <template #previewTemplate>
+              <div class="w-25">
+                <div class="dz-preview dz-file-preview">
+                  <div class="dz-details">
+                    <div class="dz-filename"><span data-dz-name></span></div>
+                    <div class="dz-size" data-dz-size></div>
+                    <img data-dz-thumbnail/>
+                  </div>
+                  <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                  <div class="dz-success-mark"><span>✔</span></div>
+                  <div class="dz-error-mark"><span>✘</span></div>
+                </div>
+              </div>
+            </template>
+          </file-input>
         </div>
         <h3 class="border-bottom border-secondary">Accordions</h3>
         <div class="mb-4">
@@ -97,7 +110,6 @@
 </template>
 
 <script>
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import ModalButton   from "@/components/ModalButton/ModalButton";
 import DataLoad      from "@/components/DataLoad/DataLoad";
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
@@ -108,6 +120,7 @@ import Accordion     from "@/components/Accordion/Accordion";
 import AccordionItem from "@/components/Accordion/AccordionItem";
 import FileInput     from "@/components/FileInput/FileInput";
 
+import 'bootstrap-icons/font/bootstrap-icons.css';
 export default {
   name: "App",
   components: {FileInput, AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
