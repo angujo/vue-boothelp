@@ -1,25 +1,23 @@
 import DataLoad           from "./components/DataLoad/DataLoad";
-import DataTable          from "./components/DataTable/DataTable";
-import FormElement        from "./components/FormElement/FormElement";
-import ModalButton        from "./components/ModalButton/ModalButton";
-import ConfirmButton      from "./components/ConfirmButton/ConfirmButton";
-import ProgressOverlay    from "./components/ProgressOverlay/ProgressOverlay";
-import Modal              from "./components/Modal/Modal";
-import Accordion          from "./components/Accordion/Accordion";
-import AccordionItem      from "./components/Accordion/AccordionItem";
-import Notifications      from '@kyvg/vue3-notification';
-import NotificationHolder from "./components/Notification/NotificationHolder";
+import DataTable       from "./components/DataTable/DataTable";
+import FormElement     from "./components/FormElement/FormElement";
+import ModalButton     from "./components/ModalButton/ModalButton";
+import ConfirmButton   from "./components/ConfirmButton/ConfirmButton";
+import ProgressOverlay from "./components/ProgressOverlay/ProgressOverlay";
+import Modal           from "./components/Modal/Modal";
+import Accordion       from "./components/Accordion/Accordion";
+import AccordionItem   from "./components/Accordion/AccordionItem";
+import FileInput       from "./components/FileInput/FileInput";
 
 let components = require("./components");
-import mitt               from 'mitt';
+import mitt            from 'mitt';
 
 export default {
     // eslint-disable-next-line no-unused-vars
     install(app, options = {}) {
         app.config.globalProperties.$mitt = mitt();
-        app.use(Notifications);
         // components
-        app.component('notifications', NotificationHolder);
+        app.component('file-input', FileInput);
         app.component('data-load', DataLoad);
         app.component('data-table', DataTable);
         app.component('form-element', FormElement);
@@ -38,4 +36,4 @@ export default {
 };
 
 
-export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton, Modal, Accordion, AccordionItem};
+export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton, Modal, Accordion, AccordionItem,FileInput};
