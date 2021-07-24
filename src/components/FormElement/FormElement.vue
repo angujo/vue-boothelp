@@ -25,6 +25,7 @@
 
 import axios             from 'axios';
 import _                 from './../../helpers';
+import lmix              from './../../mixin-helper';
 import NotificationMixin from "./../Notification/NotificationMixin";
 import ProgressOverlay   from "./../ProgressOverlay/ProgressOverlay";
 
@@ -56,6 +57,7 @@ export default {
     return {loading: false, params: {}, fetching: false}
   },
   methods: {
+    ...lmix,
     loadData() {
       this.fetching = true;
       axios.get(this.loadUrl)
