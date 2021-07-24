@@ -1,6 +1,6 @@
 {
   "name": "vue-boothelp",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A Group of Vue3 component to make life easy",
   "main": "src/index.js",
   "jsnext:main": "src/index.js",
