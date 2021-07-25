@@ -328,6 +328,9 @@ export default {
         console.error('ERROR :', 'Max number of files exceeded!')
         vm.$emit('maxfilesexceeded', file);
       });
+      this.dropzone.on('processing', function () {
+        this.options.url=vm.postUrl;
+      });
       // Drag Dom Events
       this.dropzone.on('drop', function (event) { vm.$emit('drop', event); });
       this.dropzone.on('dragstart', function (event) {
