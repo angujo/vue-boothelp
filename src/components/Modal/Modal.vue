@@ -55,7 +55,7 @@ export default {
     centered: {type: Boolean, default: false},
     scrollable: {type: Boolean, default: false},
     toggle: {type: Boolean, default: false},
-    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean,title:String,
+    large: Boolean, small: Boolean, extraLarge: Boolean, fullscreen: Boolean, title: String,
     fullscreenSm: Boolean, fullscreenMd: Boolean, fullscreenLg: Boolean, fullscreenXl: Boolean, fullscreenXxl: Boolean,
   },
   data() {
@@ -152,6 +152,7 @@ export default {
   watch: {
     toggle(v) {
       if (v) this.show();
+      else this.hide();
     }
   },
   mounted() {

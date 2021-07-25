@@ -21,14 +21,14 @@
            :fullscreen-lg="fullscreenLg"
            :fullscreen-xl="fullscreenXl"
            :fullscreen-xxl="fullscreenXxl">
-      <template #header>
-        <slot name="header"/>
+      <template #header="{hide}">
+        <slot name="header" :hide="hide"/>
       </template>
-      <template #default>
-        <slot name="body"/>
+      <template #default="{hide}">
+        <slot name="body" :hide="hide"/>
       </template>
-      <template #footer>
-        <slot name="footer"/>
+      <template #footer="{hide}">
+        <slot name="footer" :hide="hide"/>
       </template>
     </modal>
   </button>
