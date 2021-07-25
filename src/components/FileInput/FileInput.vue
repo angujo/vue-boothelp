@@ -224,10 +224,13 @@ export default {
     }
   },
   methods: {
-    reload() {
+    reload(fnc) {
       if (!this.dropzone) return;
       this.dropzone.disable();
-      setTimeout(() => { this.dropzone.enable();}, 500);
+      setTimeout(() => {
+        this.dropzone.enable();
+        if (_.isFunction(fnc)) fnc.call();
+      }, 500);
     },
     process() {
       if (!this.autoProcessQueue && this.dropzone && this.dropzone.getQueuedFiles().length > 0) this.dropzone.processQueue();
