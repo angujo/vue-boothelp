@@ -97,7 +97,7 @@ export default {
       }
       axios.post(this.url, formData, {headers})
            .then(resp => {
-             if (_.isString(resp.data) && !this.noNotification) this.notifySuccess(resp.data);
+             if (!this.noNotification) this.notifySuccess(_.isString(resp.data) ? resp.data : 'Successfully Submitted');
              this.$emit('success', resp.data);
            })
            .catch(error => {

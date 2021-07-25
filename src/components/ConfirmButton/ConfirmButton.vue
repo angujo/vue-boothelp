@@ -44,7 +44,7 @@ import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "ConfirmButton",
-  emits: ['cancelled', 'confirmed', 'error', 'confirmHidden', 'cancelHidden'],
+  emits: ['cancelled', 'confirmed', 'error', 'confirmHidden', 'cancelHidden','hidden'],
   mixins: [NotificationMixin],
   props: {
     title: String, data: Object, headers: Object, params: Object, url: String, noHeader: Boolean,
