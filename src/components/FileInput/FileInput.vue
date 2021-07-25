@@ -224,6 +224,11 @@ export default {
     }
   },
   methods: {
+    reload() {
+      if (!this.dropzone) return;
+      this.dropzone.disable();
+      setTimeout(() => { this.dropzone.enable();}, 500);
+    },
     process() {
       if (!this.autoProcessQueue && this.dropzone && this.dropzone.getQueuedFiles().length > 0) this.dropzone.processQueue();
     },
@@ -406,17 +411,14 @@ export default {
     nFile(v) {
       if (this.multiple) return;
       this.sFile = v;
-      if (!v)return;
-      this.imageUrl =v.url;
+      if (!v) return;
+      this.imageUrl = v.url;
     }
   },
   mounted() {
     this.checkOverrideOptions();
     this.initDropzone();
     this.registerEvents();
-    if (!this.multiple && this.nFile) {
-
-    }
   },
   beforeDestroy() {
     this.dropzone.disable();
