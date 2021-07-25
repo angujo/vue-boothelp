@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-outline-secondary" @click="show">
+  <button type="button" @click="show">
     <slot>#ModalButton</slot>
     <modal ref="myModal" @hidden="hidden" @hide="modal=false" @shown="$emit('shown')" :toggle="modal" :key="mKey"
            :url="url"

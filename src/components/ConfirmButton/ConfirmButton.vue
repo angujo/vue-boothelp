@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn" @click="show">
+  <button type="button" @click="show">
     <slot>#ConfirmButton</slot>
     <teleport to="body">
       <div class="modal fade" ref="cmodal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
