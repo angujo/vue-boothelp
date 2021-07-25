@@ -26,7 +26,7 @@
               </template>
             </div>
             <div class="modal-footer" v-if="!progress">
-              <button type="button" class="btn btn-secondary" @click="cancelled">Close</button>
+              <button type="button" class="btn btn-secondary" @click="cancelled">Cancel</button>
               <button type="button" class="btn btn-primary" @click="confirm">{{ confirmText }}</button>
             </div>
           </div>
@@ -44,14 +44,14 @@ import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "ConfirmButton",
-  emits: ['cancelled', 'confirmed', 'error'],
+  emits: ['cancelled', 'confirmed', 'error', 'confirmHidden', 'cancelHidden'],
   mixins: [NotificationMixin],
   props: {
     title: String, data: Object, headers: Object, params: Object, url: String, noHeader: Boolean,
     confirmText: {type: String, default: 'Confirm'}, noNotification: Boolean
   },
   data() {
-    return {elm: null, modal: null, progress: false, error: null, tick: null, tTime: 5}
+    return {elm: null, modal: null, progress: false, error: null, tick: null, tTime: 5, confirmed: false}
   },
   methods: {
     ...helpers,
@@ -74,6 +74,7 @@ export default {
             this.content = resp.data;
             if (_.isString(resp.data) && !this.noNotification) this.notifySuccess(resp.data);
             this.$emit('confirmed', this.content);
+            this.confirmed = true;
             this.hide();
           })
           .catch(er => {
@@ -94,6 +95,7 @@ export default {
       if (this.url) this.getData();
       else {
         this.$emit('confirmed');
+        this.confirmed = true;
         this.hide();
       }
     },
@@ -119,6 +121,9 @@ export default {
       this.error = null;
       if (this.tick) clearInterval(this.tick);
       this.$emit('hidden');
+      if (this.confirmed) this.$emit('confirmHidden');
+      else this.$emit('cancelHidden');
+      this.confirmed = false;
     });
   }
 }
