@@ -48,6 +48,7 @@ export default {
   name: "FileInput",
   mixins: [NotificationMixin],
   props: {
+    nFile: {type: Object,},
     multiple: {
       type: Boolean,
       default: false,
@@ -401,10 +402,21 @@ export default {
       return this.dropzoneClass + ' ' + defaultClass;
     }
   },
+  watch: {
+    nFile(v) {
+      if (this.multiple) return;
+      this.sFile = v;
+      if (!v)return;
+      this.imageUrl =v.url;
+    }
+  },
   mounted() {
     this.checkOverrideOptions();
     this.initDropzone();
     this.registerEvents();
+    if (!this.multiple && this.nFile) {
+
+    }
   },
   beforeDestroy() {
     this.dropzone.disable();
