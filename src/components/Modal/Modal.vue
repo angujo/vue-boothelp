@@ -59,7 +59,7 @@ export default {
     fullscreenSm: Boolean, fullscreenMd: Boolean, fullscreenLg: Boolean, fullscreenXl: Boolean, fullscreenXxl: Boolean,
   },
   data() {
-    return {mModal: null, elm: null, vW: 0, vH: 0, up: false}
+    return {mModal: null, elm: null, vW: 0, vH: 0, up: false, afterHideFunc: null}
   },
   methods: {
     getData() {
@@ -69,8 +69,9 @@ export default {
       this.init();
       this.mModal.show();
     },
-    hide() {
+    hide(fnc) {
       this.init();
+      if (_.isFunction(fnc)) this.afterHideFunc = fnc;
       this.mModal.hide();
     },
     dispose() {
@@ -103,6 +104,7 @@ export default {
       });
       this.elm.addEventListener('hidden.bs.modal', e => {
         this.$emit('hidden', e);
+        if (_.isFunction(this.afterHideFunc)) this.afterHideFunc.call();
       });
       this.elm.addEventListener('hidePrevented.bs.modal', e => {
         this.$emit('hidePrevented', e);
