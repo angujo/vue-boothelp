@@ -37,16 +37,18 @@
 </template>
 
 <script>
-import _       from "./../../helpers";
-import axios   from "axios";
-import helpers from "./../../mixin-helper";
+import _                 from "./../../helpers";
+import axios             from "axios";
+import helpers           from "./../../mixin-helper";
+import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "ConfirmButton",
   emits: ['cancelled', 'confirmed', 'error'],
+  mixins: [NotificationMixin],
   props: {
     title: String, data: Object, headers: Object, params: Object, url: String, noHeader: Boolean,
-    confirmText: {type: String, default: 'Confirm'}
+    confirmText: {type: String, default: 'Confirm'}, noNotification: Boolean
   },
   data() {
     return {elm: null, modal: null, progress: false, error: null, tick: null, tTime: 5}
@@ -70,10 +72,12 @@ export default {
       })
           .then(resp => {
             this.content = resp.data;
+            if (_.isString(resp.data) && !this.noNotification) this.notifySuccess(resp.data);
             this.$emit('confirmed', this.content);
             this.hide();
           })
           .catch(er => {
+            if (!this.noNotification) this.notifyError(this.logGetError(er));
             this.$emit('error', this.error = this.logGetError(er));
             this.tick = setInterval(() => {
               this.tTime--;
@@ -114,6 +118,7 @@ export default {
       this.tTime = 5;
       this.error = null;
       if (this.tick) clearInterval(this.tick);
+      this.$emit('hidden');
     });
   }
 }
