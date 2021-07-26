@@ -68,7 +68,7 @@
         </div>
         <h3 class="border-bottom border-secondary">Tabs</h3>
         <div>
-          <tabs v-model="tabIndex">
+          <tabs >
             <tab title="Tab 101">
               Some COntent Here
             </tab>
@@ -133,7 +133,7 @@ export default {
     return {tabIndex};
   },
   data() {
-    return {imgUrl: '/test/url'}
+    return {imgUrl: '/test/url',tabsI:0}
   },
   methods: {
     newUrl() {this.imgUrl = '/random/url/' + _.mathRand()}

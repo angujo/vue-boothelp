@@ -10,8 +10,9 @@
           </div>
           <div class="btn-group">
             <slot name="prebuttons"></slot>
-            <button type="submit" :class="btnClass" :loading="loading" v-if="showButton" :inactive="inactiveButton">
-              <span v-html="btnText"></span>
+            <button type="submit" :class="btnClass" v-if="showButton" :inactive="inactiveButton">
+              <span v-if="loading"><i class="bi-gear bi-spin"/> Wait...</span>
+              <span v-else v-html="btnText"></span>
             </button>
             <slot name="buttons"></slot>
           </div>
@@ -97,7 +98,7 @@ export default {
       }
       axios.post(this.url, formData, {headers})
            .then(resp => {
-             if (!this.noNotification) this.notifySuccess(_.isString(resp.data) && 0<resp.data.length ? resp.data : 'Successfully Submitted');
+             if (!this.noNotification) this.notifySuccess(_.isString(resp.data) && 0 < resp.data.length ? resp.data : 'Successfully Submitted');
              this.$emit('success', resp.data);
            })
            .catch(error => {

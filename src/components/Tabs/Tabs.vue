@@ -24,8 +24,10 @@ export default {
     modelValue: {
       type: [String, Number],
     },
-  }, setup(props, {emit}) {
-    const active = computed(() => props.modelValue);
+  },
+  setup(props, {emit}) {
+    const ind = props.modelValue || 0;
+    const active = computed(() => ind);
     const tabs = ref([]);
 
     function selectTab(tab) {
@@ -44,7 +46,7 @@ export default {
     };
   },
   data() {
-    return {selectedIndex: 0, t: null, tabList: []}
+    return {selectedIndex: 0, t: null,}
   },
   methods: {
     selectOne(i) {
