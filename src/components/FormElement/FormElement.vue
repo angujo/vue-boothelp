@@ -2,6 +2,7 @@
   <progress-overlay :loading="fetching">
     <form method="post" :action="url" @submit.prevent="submitForm">
       <div class="mb-3 text-danger" v-if="requireList.length>0">
+        Error encountered. The following fields are required;
         <ul>
           <li v-for="req in requireList">{{ req }}</li>
         </ul>
