@@ -55,7 +55,7 @@
                 </accordion-item>
               </accordion>
             </div>
-            <div class="col-3">
+<!--            <div class="col-3">
               <accordion url="https://jsonplaceholder.typicode.com/users">
                 <template #default="{data}">
                   <accordion-item :title="data.email">
@@ -63,17 +63,40 @@
                   </accordion-item>
                 </template>
               </accordion>
-            </div>
+            </div>-->
           </div>
         </div>
         <h3 class="border-bottom border-secondary">Tabs</h3>
         <div>
-          <tabs >
+          <tabs rotate vertical>
             <tab title="Tab 101">
               Some COntent Here
             </tab>
             <tab title="Tab 102">
               Some COntent Here #2
+            </tab>
+            <tab title="And again for 2021">
+              Some COntent Here #2
+            </tab>
+          </tabs>
+        </div>
+        <div>
+          <tabs>
+            <tab title="Tab 101">
+              Some COntent Here
+            </tab>
+            <tab title="Tab 102">
+              Some COntent Here #2
+            </tab>
+          </tabs>
+        </div>
+        <div>
+          <tabs vertical>
+            <tab title="Tab 101232 dfkjhdfkjhd dkj djkfhkj dkjfh kjhdfjkh kdf">
+              Vertical : Some COntent Here
+            </tab>
+            <tab title="Tab 102dfff">
+              Vertical : Some COntent Here #2
             </tab>
           </tabs>
         </div>
@@ -133,7 +156,7 @@ export default {
     return {tabIndex};
   },
   data() {
-    return {imgUrl: '/test/url',tabsI:0}
+    return {imgUrl: '/test/url', tabsI: 0}
   },
   methods: {
     newUrl() {this.imgUrl = '/random/url/' + _.mathRand()}
