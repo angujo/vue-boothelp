@@ -4,7 +4,8 @@
       <div class="col">
         <h3 class="border-bottom border-secondary">Uploads</h3>
         <div class="">
-          <file-input :auto-process-queue="true">
+          <button type="button" class="btn btn-info" @click="newUrl">Change URL</button>
+          <file-input :auto-process-queue="true" :url="imgUrl">
             <template #previewTemplate>
               <div class="w-25">
                 <div class="dz-preview dz-file-preview">
@@ -119,8 +120,10 @@ import {ref}         from "vue";
 import Accordion     from "@/components/Accordion/Accordion";
 import AccordionItem from "@/components/Accordion/AccordionItem";
 import FileInput     from "@/components/FileInput/FileInput";
+import _             from './../src/helpers';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
 export default {
   name: "App",
   components: {FileInput, AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
@@ -130,7 +133,10 @@ export default {
     return {tabIndex};
   },
   data() {
-    return {}
+    return {imgUrl: '/test/url'}
+  },
+  methods: {
+    newUrl() {this.imgUrl = '/random/url/' + _.mathRand()}
   }
 }
 </script>

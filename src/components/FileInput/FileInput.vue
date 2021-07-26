@@ -225,7 +225,7 @@ export default {
   },
   methods: {
     reload(fnc) {
-      if (!this.dropzone) return;
+      if (!this.dropzone) this.initDropzone();
       this.dropzone.disable();
       setTimeout(() => {
         this.dropzone.enable();
@@ -233,7 +233,7 @@ export default {
       }, 500);
     },
     process() {
-      if (!this.autoProcessQueue && this.dropzone && this.dropzone.getQueuedFiles().length > 0) this.dropzone.processQueue();
+      this.dropzone.processQueue();
     },
     initDropzone() {
       Dropzone.autoDiscover = false;
@@ -329,7 +329,7 @@ export default {
         vm.$emit('maxfilesexceeded', file);
       });
       this.dropzone.on('processing', function () {
-        this.options.url=vm.postUrl;
+        this.options.url = vm.postUrl;
       });
       // Drag Dom Events
       this.dropzone.on('drop', function (event) { vm.$emit('drop', event); });
