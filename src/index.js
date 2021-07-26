@@ -8,6 +8,8 @@ import Modal           from "./components/Modal/Modal";
 import Accordion       from "./components/Accordion/Accordion";
 import AccordionItem   from "./components/Accordion/AccordionItem";
 import FileInput       from "./components/FileInput/FileInput";
+import Tabs            from "./components/Tabs/Tabs";
+import Tab             from "./components/Tabs/Tab";
 
 let components = require("./components");
 import mitt            from 'mitt';
@@ -27,6 +29,8 @@ export default {
         app.component('modal', Modal);
         app.component('accordion', Accordion);
         app.component('accordion-item', AccordionItem);
+        app.component('tabs', Tabs);
+        app.component('tab', Tab);
         /*for (const componentName in components) {
             const component = components[componentName];
             console.log('Component::', componentName, component.name);
