@@ -1,6 +1,11 @@
 <template>
   <progress-overlay :loading="fetching">
     <form method="post" :action="url" @submit.prevent="submitForm">
+      <div class="mb-3 text-danger" v-if="requireList.length>0">
+        <ul>
+          <li v-for="req in requireList">{{ req }}</li>
+        </ul>
+      </div>
       <slot>#FormBody</slot>
       <template v-if="false===pureForm">
         <hr v-if="!inline"/>
@@ -35,6 +40,7 @@ export default {
   components: {ProgressOverlay},
   mixins: [NotificationMixin],
   props: {
+    required: {type: [Array, Object, String], default: null},
     loadUrl: {type: String, default: null},
     method: String,
     noNotification: Boolean,
@@ -55,10 +61,41 @@ export default {
     },
   },
   data() {
-    return {loading: false, params: {}, fetching: false}
+    return {loading: false, params: {}, fetching: false, requireList: []}
   },
   methods: {
     ...lmix,
+    checkRequired() {
+      if (!this.required || this.required.length === 0) return true;
+      let reqs = [];
+      this.requireList = [];
+      if (_.isString(this.required)) {
+        reqs = this.required.split(',').map(r => [r, r]);
+      }
+      else if (_.isPlainObject(this.required)) reqs = Object.entries(this.required);
+      else if (Array.isArray(this.required)) reqs = this.required;
+      if (!Array.isArray(reqs)) return true;
+      reqs = reqs.map(r => {
+        if (Array.isArray(r)) {
+          if (r.length <= 0) return null;
+          if (r.length === 2) return r;
+          if (r.length > 2) return [(r[0] || '[NONE]').toString, (r[1] || '[NONE]').toString];
+          if (r.length === 1) return [(r[0] || '[NONE]').toString, (r[0] || '[NONE]').toString];
+        }
+        if (_.isString(r)) return [r, r];
+        if (_.isPlainObject(r)) {
+          r = Object.entries(r);
+          return r.length > 0 ? r[0] : null;
+        }
+        return null;
+      }).filter(r => r);
+      for (let i = 0; i < reqs.length; i++) {
+        let k = reqs[i][0], v = reqs[i][1],
+            m = _.objectGet(this.fields, k, null);
+        if (null === m || typeof m === 'undefined') {this.requireList.push(v);}
+      }
+      return this.requireList.length === 0;
+    },
     loadData() {
       this.fetching = true;
       axios.get(this.loadUrl)
@@ -83,7 +120,7 @@ export default {
       else formData.append(key, val);
     },
     submitForm() {
-      if (this.preventEnter || (_.isFunction(this.beforeSave) && false === this.beforeSave())) return;
+      if (this.preventEnter || !this.checkRequired() || (_.isFunction(this.beforeSave) && false === this.beforeSave())) return;
       this.loading = true;
       if (this.method && ['put', 'patch', 'delete'].includes(this.method.toString().toLowerCase())) {
         this.fields['_method'] = this.method.toString().toUpperCase();
