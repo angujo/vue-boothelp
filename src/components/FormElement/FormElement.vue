@@ -10,7 +10,7 @@
           </div>
           <div class="btn-group">
             <slot name="prebuttons"></slot>
-            <button type="submit" :class="btnClass" v-if="showButton" :inactive="inactiveButton">
+            <button type="submit" :class="btnClass" :disabled="loading" v-if="showButton" :inactive="inactiveButton">
               <span v-if="loading"><i class="bi-gear bi-spin"/> Wait...</span>
               <span v-else v-html="btnText"></span>
             </button>
