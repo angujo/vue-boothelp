@@ -55,28 +55,28 @@
                 </accordion-item>
               </accordion>
             </div>
-<!--            <div class="col-3">
-              <accordion url="https://jsonplaceholder.typicode.com/users">
-                <template #default="{data}">
-                  <accordion-item :title="data.email">
-                    {{ data }}
-                  </accordion-item>
-                </template>
-              </accordion>
-            </div>-->
+            <!--            <div class="col-3">
+                          <accordion url="https://jsonplaceholder.typicode.com/users">
+                            <template #default="{data}">
+                              <accordion-item :title="data.email">
+                                {{ data }}
+                              </accordion-item>
+                            </template>
+                          </accordion>
+                        </div>-->
           </div>
         </div>
         <h3 class="border-bottom border-secondary">Tabs</h3>
         <div>
           <tabs rotate vertical>
-            <tab title="Tab 101">
-              Some COntent Here
+            <tab title="Tab 101v">
+              vers Some COntent Here
             </tab>
-            <tab title="Tab 102">
-              Some COntent Here #2
+            <tab title="Tab 102v">
+              vers Some COntent Here #2
             </tab>
-            <tab title="And again for 2021">
-              Some COntent Here #2
+            <tab title="And again for 2021v">
+              Long Some COntent Here #2
             </tab>
           </tabs>
         </div>
@@ -130,6 +130,19 @@
         </div>
       </div>
     </div>
+    <h3>Forms</h3>
+    <div>
+      <form-element url="/" :fields="{}">
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+      </form-element>
+    </div>
   </div>
 </template>
 
@@ -146,10 +159,11 @@ import FileInput     from "@/components/FileInput/FileInput";
 import _             from './../src/helpers';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import FormElement   from "@/components/FormElement/FormElement";
 
 export default {
   name: "App",
-  components: {FileInput, AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
+  components: {FormElement, FileInput, AccordionItem, Accordion, Tab, Tabs, DataLoad, ModalButton, ConfirmButton},
   setup() {
     const tabIndex = ref(0);
 

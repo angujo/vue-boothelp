@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative">
     <slot/>
-    <div v-if="loading" class="p-5 bg-light d-flex justify-content-center align-items-center">
+    <div v-if="loading" class="p-5 bg-light d-flex justify-content-center align-items-center position-absolute vbh_prog_overlay">
       <span><i class="bi-gear bi-spin"></i> Loading...</span>
     </div>
   </div>
@@ -14,4 +14,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.vbh_prog_overlay {
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+</style>

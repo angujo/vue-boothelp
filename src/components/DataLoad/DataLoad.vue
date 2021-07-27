@@ -13,10 +13,10 @@
       </template>
     </template>
     <slot v-else :content="content"></slot>
-    <div v-if="loading" class="p-5 bg-light d-flex justify-content-center align-items-center">
+    <div v-if="loading" class="p-5 bg-light d-flex justify-content-center align-items-center vbh_prog_overlay">
       <span><i class="bi-gear bi-spin"></i> Loading...</span>
     </div>
-    <div v-else-if="error" class="p-5 bg-failed text-center">
+    <div v-else-if="error" class="p-5 bg-failed text-center vbh_prog_overlay">
       <div>
         <button class="btn btn-link" type="button" @click="reload">Refresh</button>
       </div>
@@ -99,6 +99,11 @@ export default {
   position: relative;
 }
 
+.vbh_prog_overlay {
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
 .bg-failed {
   background-color: #ffe5e5 !important;
 }

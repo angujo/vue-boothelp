@@ -2,10 +2,11 @@
   <div :class="[vertical?'d-flex align-items-start':'']">
     <div :class="['nav position-relative',vertical?'nav-pills flex-column me-3':'nav-tabs']" role="tablist"
          :aria-orientation="vertical?'vertical':null">
-      <button v-for="(tab,i) in tabList" :class="['nav-link',rotate?'vb_tabs_rot_270':'',active===i?'active':'']" :id="tab.id+'-tab'"
+      <button v-for="(tab,i) in tabList" :class="['nav-link',active===i?'active':'']" :id="tab.id+'-tab'"
               :data-bs-toggle="vertical?'pill':'tab'"
               :data-bs-target="'#'+tab.id" type="button" role="tab" @click="selectTab(i)" :key="tab.id"
-              :aria-controls="tab.id" :aria-selected="i===selectedIndex?'true':'false'"><span v-html="tab.title"/>
+              :aria-controls="tab.id" :aria-selected="i===selectedIndex?'true':'false'">
+        <span :class="[rotate?'vb_tabs_rot_270':'']"><span v-html="tab.title"/></span>
       </button>
     </div>
     <div class="tab-content p-3">
@@ -81,8 +82,13 @@ export default {
 .vb_tabs_rot_270 {
   text-orientation: mixed;
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
   padding: 8px 5px;
   line-height: 1;
+
+  -ms-transform:rotate(180deg); /* IE 9 */
+  -moz-transform:rotate(180deg); /* Firefox */
+  -webkit-transform:rotate(180deg); /* Safari and Chrome */
+  -o-transform:rotate(180deg); /* Opera */
+  transform: rotate(180deg);
 }
 </style>
