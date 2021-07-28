@@ -1,12 +1,12 @@
 <template>
   <div class="dt_wrapper">
     <table-top :page-sizes="pageSizes" @onCount="c=>{count=c;}"></table-top>
-    <html-table :data="sData" ref="httble" :count="count" :page="page" @onTotal="t=>{total=t;}">
-      <template v-for="(_, scopedSlotName) in cellSlots" v-slot:[scopedSlotName]="slotData">
-        <slot :name="scopedSlotName" v-bind="slotData"/>
-      </template>
-    </html-table>
-    <table-footer ref="tfpg" @paged="p=>{page=p;}" :per-page="count" :total="total" :page="activePage"/>
+      <html-table :data="sData" ref="httble" :count="count" :page="page" @onTotal="t=>{total=t;}">
+       <template v-for="(_, scopedSlotName) in cellSlots" v-slot:[scopedSlotName]="slotData">
+         <slot :name="scopedSlotName" v-bind="slotData"/>
+       </template>
+     </html-table>
+     <table-footer ref="tfpg" @paged="p=>{page=p;}" :per-page="count" :total="total" :page="activePage"/>
     <div class="dt_overlay d-flex justify-content-center align-items-center text-center" v-if="loading">
       <span class="d-inline-block"><span><i class="bi-gear bi-spin" style="font-size: 2rem;"></i></span>
         <br/><span class="small ms-2">Wait...</span></span>
@@ -65,7 +65,7 @@ export default {
       return this.columns.filter(c => _.isVarName(c.slot)).map(c => c.slot);
     },
     cellSlots() {
-      return Object.fromEntries(Object.entries(this.$scopedSlots).filter(([k, v]) => this.cellSlotNames.includes(k)));
+      return Object.fromEntries(Object.entries(this.$slots).filter(([k, v]) => this.cellSlotNames.includes(k)));
     },
     sUrl() {
       return this.url && this.url.toString().trim().length > 0 ? this.url.toString().trim() : (this.nonceUrl && this.nonceUrl.toString().trim().length ? this.nonceUrl.toString().trim() : null);
@@ -81,12 +81,9 @@ export default {
     }
   },
   mounted() {
-    this.$mitt.on('page-confirmed', p => {
-      this.activePage = p;
-    });
-    this.$mitt.on('onRowClick', obj => {
-      this.$emit('onRowClick', obj.d, obj.i);
-    });
+    //console.log(this.$scopedSlots,this.$slots,Object.keys(this.$slots))
+    this.$mitt.on('page-confirmed', p => { this.activePage = p; });
+    this.$mitt.on('onRowClick', obj => { this.$emit('onRowClick', obj.d, obj.i); });
   }
 };
 </script>

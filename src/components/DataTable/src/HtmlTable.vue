@@ -2,7 +2,7 @@
   <table class="table table-bordered">
     <table-head @checked="allChecked"></table-head>
     <table-body :data="data" :page="page" :count="count" @onTotal="t=>{$emit('onTotal',t);}">
-      <template v-for="(_, scopedSlotName) in $scopedSlots" v-slot:[scopedSlotName]="slotData">
+      <template v-for="(_, scopedSlotName) in $slots" v-slot:[scopedSlotName]="slotData">
         <slot :name="scopedSlotName" v-bind="slotData"/>
       </template>
     </table-body>

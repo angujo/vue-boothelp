@@ -1,4 +1,4 @@
-import DataLoad           from "./components/DataLoad/DataLoad";
+import DataLoad        from "./components/DataLoad/DataLoad";
 import DataTable       from "./components/DataTable/DataTable";
 import FormElement     from "./components/FormElement/FormElement";
 import ModalButton     from "./components/ModalButton/ModalButton";
@@ -11,8 +11,7 @@ import FileInput       from "./components/FileInput/FileInput";
 import Tabs            from "./components/Tabs/Tabs";
 import Tab             from "./components/Tabs/Tab";
 
-let components = require("./components");
-import mitt            from 'mitt';
+import mitt from 'mitt';
 
 export default {
     // eslint-disable-next-line no-unused-vars
@@ -31,13 +30,21 @@ export default {
         app.component('accordion-item', AccordionItem);
         app.component('tabs', Tabs);
         app.component('tab', Tab);
-        /*for (const componentName in components) {
-            const component = components[componentName];
-            console.log('Component::', componentName, component.name);
-            app.component(component.name, component);
-        }*/
     },
 };
 
 
-export {DataTable, DataLoad, FormElement, ModalButton, ProgressOverlay, ConfirmButton, Modal, Accordion, AccordionItem,FileInput};
+export {
+    DataTable,
+    DataLoad,
+    FormElement,
+    ModalButton,
+    ProgressOverlay,
+    ConfirmButton,
+    Modal,
+    Accordion,
+    AccordionItem,
+    FileInput,
+    Tab,
+    Tabs
+};

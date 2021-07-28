@@ -1,7 +1,7 @@
 <template>
   <tbody name="row-table" is="transition-group">
   <body-row v-for="(d,i) in pagedData" :data="d" :columns="columns" :key="key+indexKey(i)+fKey" :index="i" :page="page" :count="count">
-    <template v-for="(_, scopedSlotName) in $scopedSlots" v-slot:[scopedSlotName]="slotData">
+    <template v-for="(_, scopedSlotName) in $slots" v-slot:[scopedSlotName]="slotData">
       <slot :name="scopedSlotName" v-bind="slotData"/>
     </template>
   </body-row>
