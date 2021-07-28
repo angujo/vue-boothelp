@@ -1,10 +1,19 @@
 <template>
   <tbody name="row-table" is="transition-group">
-  <body-row v-for="(d,i) in pagedData" :data="d" :columns="columns" :key="key+indexKey(i)+fKey" :index="i" :page="page" :count="count">
-    <template v-for="(_, scopedSlotName) in $slots" v-slot:[scopedSlotName]="slotData">
-      <slot :name="scopedSlotName" v-bind="slotData"/>
-    </template>
-  </body-row>
+  <template v-if="pagedData.length>0">
+    <body-row v-for="(d,i) in pagedData" :data="d" :columns="columns" :key="key+indexKey(i)+fKey" :index="i" :page="page" :count="count">
+      <template v-for="(_, scopedSlotName) in $slots" v-slot:[scopedSlotName]="slotData">
+        <slot :name="scopedSlotName" v-bind="slotData"/>
+      </template>
+    </body-row>
+  </template>
+  <tr v-else>
+    <td :colspan="columns.length">
+      <div class="bg-light p-5 text-center">
+        <div>No Data</div>
+      </div>
+    </td>
+  </tr>
   </tbody>
 </template>
 
@@ -170,6 +179,11 @@ export default {
     columns() {
       return this.$parent.columns.body;
     },
+  },
+  watch: {
+    count(v) {
+      if (this.isServerBased) this.getData();
+    }
   },
   mounted() {
     this.getData();
