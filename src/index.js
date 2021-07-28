@@ -11,7 +11,8 @@ import FileInput       from "./components/FileInput/FileInput";
 import Tabs            from "./components/Tabs/Tabs";
 import Tab             from "./components/Tabs/Tab";
 
-import mitt from 'mitt';
+import mitt   from 'mitt';
+import Imager from "@/components/Imager/Imager";
 
 export default {
     // eslint-disable-next-line no-unused-vars
@@ -30,6 +31,7 @@ export default {
         app.component('accordion-item', AccordionItem);
         app.component('tabs', Tabs);
         app.component('tab', Tab);
+        app.component('imager', Imager);
     },
 };
 
@@ -46,5 +48,6 @@ export {
     AccordionItem,
     FileInput,
     Tab,
-    Tabs
+    Tabs,
+    Imager
 };
