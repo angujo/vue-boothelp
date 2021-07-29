@@ -10,9 +10,9 @@ import AccordionItem   from "./components/Accordion/AccordionItem";
 import FileInput       from "./components/FileInput/FileInput";
 import Tabs            from "./components/Tabs/Tabs";
 import Tab             from "./components/Tabs/Tab";
+import Imager from "./components/Imager/Imager";
 
 import mitt   from 'mitt';
-import Imager from "@/components/Imager/Imager";
 
 export default {
     // eslint-disable-next-line no-unused-vars
