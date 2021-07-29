@@ -1,17 +1,18 @@
-import DataLoad        from "./components/DataLoad/DataLoad";
-import DataTable       from "./components/DataTable/DataTable";
-import FormElement     from "./components/FormElement/FormElement";
-import ModalButton     from "./components/ModalButton/ModalButton";
-import ConfirmButton   from "./components/ConfirmButton/ConfirmButton";
-import ProgressOverlay from "./components/ProgressOverlay/ProgressOverlay";
-import Modal           from "./components/Modal/Modal";
-import Accordion       from "./components/Accordion/Accordion";
-import AccordionItem   from "./components/Accordion/AccordionItem";
-import FileInput       from "./components/FileInput/FileInput";
-import Tabs            from "./components/Tabs/Tabs";
-import Tab             from "./components/Tabs/Tab";
-import Imager          from "./components/Imager/Imager";
-import BounceOverlay   from "./components/BounceOverlay/BounceOverlay";
+import DataLoad          from "./components/DataLoad/DataLoad";
+import DataTable         from "./components/DataTable/DataTable";
+import FormElement       from "./components/FormElement/FormElement";
+import ModalButton       from "./components/ModalButton/ModalButton";
+import ConfirmButton     from "./components/ConfirmButton/ConfirmButton";
+import ProgressOverlay   from "./components/ProgressOverlay/ProgressOverlay";
+import Modal             from "./components/Modal/Modal";
+import Accordion         from "./components/Accordion/Accordion";
+import AccordionItem     from "./components/Accordion/AccordionItem";
+import FileInput         from "./components/FileInput/FileInput";
+import Tabs              from "./components/Tabs/Tabs";
+import Tab               from "./components/Tabs/Tab";
+import Imager            from "./components/Imager/Imager";
+import BounceOverlay     from "./components/BounceOverlay/BounceOverlay";
+import NotificationMixin from "./components/Notification/NotificationMixin";
 
 import mitt from 'mitt';
 import _    from './helpers';
@@ -26,7 +27,7 @@ export default {
         if (options.headers) {
             _.mergeDeep(opts, defaults.headers, options.headers)
         }
-         _.mergeDeep(app.config.globalProperties.$http.defaults.headers.common, opts);
+        _.mergeDeep(app.config.globalProperties.$http.defaults.headers.common, opts);
 
         app.config.globalProperties.$mitt = mitt();
         // components
@@ -62,5 +63,6 @@ export {
     Tab,
     Tabs,
     Imager,
-    BounceOverlay
+    BounceOverlay,
+    NotificationMixin
 };

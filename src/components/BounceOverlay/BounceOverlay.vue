@@ -7,12 +7,14 @@
 </template>
 
 <script>
-import mh from "./../../mixin-helper";
-import _ from "./../../helpers";
+import mh                from "./../../mixin-helper";
+import _                 from "./../../helpers";
+import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "BounceOverlay",
   emits: ['success', 'error', 'bounced'],
+  mixins: [NotificationMixin],
   props: {
     monitor: {type: null},
     url: String,
@@ -32,18 +34,19 @@ export default {
       let dt = {};
       dt[v.paramName] = v.subData;
       v.$http.post(v.url, dt)
-           .then(resp => {
-             v.$emit('success', resp.data);
-             if (!v.noNotification && _.isString(resp.data)) v.notifySuccess(resp.data);
-           })
-           .catch(err => {
-             v.logGetError(err);
-             v.$emit('error', err);
-           })
-           .then(r => {
-             v.submitting = false;
-             v.$emit('bounced');
-           })
+       .then(resp => {
+         v.$emit('success', resp.data);
+         if (!v.noNotification && _.isString(resp.data)) v.notifySuccess(resp.data);
+       })
+       .catch(err => {
+         v.logGetError(err);
+         if (!v.noNotification) v.notifyError(v.logError(err));
+         v.$emit('error', err);
+       })
+       .then(r => {
+         v.submitting = false;
+         v.$emit('bounced');
+       })
     }, 1500),
     saveChange() {
       this.bounce(this);
