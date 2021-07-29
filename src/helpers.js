@@ -1,4 +1,19 @@
 export default {
+    mergeDeep(target, ...sources) {
+        if (!sources.length) return target;
+        const source = sources.shift();
+
+        if (this.isObject(target) && this.isObject(source)) {
+            for (const key in source) {
+                if (this.isObject(source[key])) {
+                    if (!target[key]) Object.assign(target, {[key]: {}});
+                    this.mergeDeep(target[key], source[key]);
+                }
+                else { Object.assign(target, {[key]: source[key]}); }
+            }
+        }
+        return this.mergeDeep(target, ...sources);
+    },
     debounce(func, wait, immediate) {
         let timeout;
         return function () {
@@ -56,10 +71,10 @@ export default {
         return this.isString(nm) && (new RegExp('^[a-zA-Z]([a-zA-Z0-9_]+)?([a-zA-Z0-9])?$')).test(nm);
     },
     isObject(obj) {
-        return obj && typeof obj === 'object';
+        return obj && typeof obj === 'object' && !Array.isArray(obj);
     },
     isPlainObject(obj) {
-        return Object.prototype.toString.call(obj) === '[object Object]';
+        return this.isObject(obj) && Object.prototype.toString.call(obj) === '[object Object]';
     },
     objectGet(obj, path, def) {
         def = def || null;

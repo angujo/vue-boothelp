@@ -36,7 +36,6 @@
 
 <script>
 import _        from './../../helpers';
-import axios    from 'axios';
 import DataLoad from "./../DataLoad/DataLoad";
 
 export default {

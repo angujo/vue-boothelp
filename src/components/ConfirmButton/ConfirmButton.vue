@@ -38,7 +38,6 @@
 
 <script>
 import _                 from "./../../helpers";
-import axios             from "axios";
 import helpers           from "./../../mixin-helper";
 import NotificationMixin from "./../Notification/NotificationMixin";
 
@@ -63,7 +62,7 @@ export default {
       if (_.isPlainObject(this.data)) p = Object.assign({}, p, this.data);
       if (_.isPlainObject(this.headers)) h = Object.assign({}, h, this.headers);
       if (_.isPlainObject(this.params)) _p = Object.assign({}, _p, this.params);
-      axios({
+      this.$http({
         method: 'post',
         url: this.url,
         headers: h,

@@ -30,7 +30,6 @@
 
 <script>
 
-import axios             from 'axios';
 import _                 from './../../helpers';
 import lmix              from './../../mixin-helper';
 import NotificationMixin from "./../Notification/NotificationMixin";
@@ -99,7 +98,7 @@ export default {
     },
     loadData() {
       this.fetching = true;
-      axios.get(this.loadUrl)
+      this.$http.get(this.loadUrl)
            .then(resp => {
              this.$emit('loaded', resp.data);
            })
@@ -134,7 +133,7 @@ export default {
           this.fDataValue(formData, k, v);
         }
       }
-      axios.post(this.url, formData, {headers})
+      this.$http.post(this.url, formData, {headers})
            .then(resp => {
              if (!this.noNotification) this.notifySuccess(_.isString(resp.data) && 0 < resp.data.length ? resp.data : 'Successfully Submitted');
              this.$emit('success', resp.data);

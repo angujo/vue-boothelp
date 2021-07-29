@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import axios  from "axios";
 import _      from './../../helpers';
 import MixinH from './../../mixin-helper';
 
@@ -63,7 +62,7 @@ export default {
       if (_.isPlainObject(this.data)) p = Object.assign({}, p, this.data);
       if (_.isPlainObject(this.headers)) h = Object.assign({}, h, this.headers);
       if (_.isPlainObject(this.params)) _p = Object.assign({}, _p, this.params);
-      axios({
+      this.$http({
         method: ['post', 'get'].includes(this.method) ? this.method : 'get',
         url: this.url,
         headers: h,

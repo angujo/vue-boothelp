@@ -21,7 +21,6 @@
 import BodyRow from "./BodyRow";
 import _       from './../../../helpers';
 
-const axios = require('axios');
 
 export default {
   name: "TableBody",
@@ -48,7 +47,7 @@ export default {
         return;
       }
       this.$parent.$parent.loading = true;
-      axios.get(this.url, this.getParams)
+      this.$http.get(this.url, this.getParams)
            .then(resp => {
              this.cData = Array.isArray(resp.data) ? resp.data : resp.data.data;
              this.nonced = this.isNonce;

@@ -11,13 +11,23 @@ import FileInput       from "./components/FileInput/FileInput";
 import Tabs            from "./components/Tabs/Tabs";
 import Tab             from "./components/Tabs/Tab";
 import Imager          from "./components/Imager/Imager";
-import Dragger         from "./components/Dragger/Dragger";
+import BounceOverlay   from "./components/BounceOverlay/BounceOverlay";
 
 import mitt from 'mitt';
+import _    from './helpers';
+
+const defaults = {headers: {'X-Requested-With': 'XMLHttpRequest'}};
 
 export default {
     // eslint-disable-next-line no-unused-vars
     install(app, options = {}) {
+        app.config.globalProperties.$http = require('axios');
+        let opts = {};
+        if (options.headers) {
+            _.mergeDeep(opts, defaults.headers, options.headers)
+        }
+         _.mergeDeep(app.config.globalProperties.$http.defaults.headers.common, opts);
+
         app.config.globalProperties.$mitt = mitt();
         // components
         app.component('file-input', FileInput);
@@ -33,7 +43,7 @@ export default {
         app.component('tabs', Tabs);
         app.component('tab', Tab);
         app.component('imager', Imager);
-        app.component('dragger', Dragger);
+        app.component('bounce-overlay', BounceOverlay);
     },
 };
 
@@ -52,5 +62,5 @@ export {
     Tab,
     Tabs,
     Imager,
-    Dragger
+    BounceOverlay
 };
