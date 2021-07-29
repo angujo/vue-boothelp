@@ -25,7 +25,7 @@ export default {
     rctClass() { return this.rectangle ? 'ratio ratio-4x3' : null;},
     lngClass() { return this.longRectangle ? 'ratio ratio-16x9' : null;},
     banClass() { return this.banner ? 'ratio ratio-21x9' : null;},
-    width() { return this.extraLarge ? 30 : (this.large ? 20 : (this.medium ? 10 : (this.small ? 3 : (this.extraSmall ? 1.5 : null))))},
+    width() { return this.extraLarge ? 20 : (this.large ? 12 : (this.medium ? 7 : (this.small ? 3 : (this.extraSmall ? 1.5 : null))))},
     height() {
       if (this.circle || this.square) return 0 + this.width;
       if (this.rectangle) return (3 / 4) * this.width;
