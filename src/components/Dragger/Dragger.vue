@@ -63,7 +63,7 @@ export default {
              v.$emit('error', err);
            })
            .then(r => {v.submitting = false;})
-    }, this.delay),
+    }, 1000),
     saveDrag() {
       this.$emit('end');
       if (_.isString(this.url)) this.bounce(this);
