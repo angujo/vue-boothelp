@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: "ProgressOverlay",
+  name: "Imager",
   props: {
     src: {type: String, require: true},
     alt: String,

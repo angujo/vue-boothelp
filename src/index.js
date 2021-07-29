@@ -10,9 +10,10 @@ import AccordionItem   from "./components/Accordion/AccordionItem";
 import FileInput       from "./components/FileInput/FileInput";
 import Tabs            from "./components/Tabs/Tabs";
 import Tab             from "./components/Tabs/Tab";
-import Imager from "./components/Imager/Imager";
+import Imager          from "./components/Imager/Imager";
+import Dragger         from "./components/Dragger/Dragger";
 
-import mitt   from 'mitt';
+import mitt from 'mitt';
 
 export default {
     // eslint-disable-next-line no-unused-vars
@@ -32,6 +33,7 @@ export default {
         app.component('tabs', Tabs);
         app.component('tab', Tab);
         app.component('imager', Imager);
+        app.component('dragger', Dragger);
     },
 };
 
@@ -49,5 +51,6 @@ export {
     FileInput,
     Tab,
     Tabs,
-    Imager
+    Imager,
+    Dragger
 };
