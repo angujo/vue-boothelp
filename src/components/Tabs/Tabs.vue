@@ -9,7 +9,7 @@
         <span :class="[rotate?'vb_tabs_rot_270':'']"><span v-html="tab.title"/></span>
       </button>
     </div>
-    <div class="tab-content p-3">
+    <div :class="['tab-content p-3',vertical?'col':'']">
       <slot/>
     </div>
   </div>
