@@ -22,7 +22,7 @@ export default {
     reduce: [String, Function],
     noNotification: Boolean,
   },
-  data() {return {submitting: false}},
+  data() {return {submitting: false, ftime: true}},
   methods: {
     ...mh,
     bounce: _.debounce((v) => {
@@ -62,7 +62,10 @@ export default {
     },
   },
   watch: {
-    monitor() {this.saveChange();}
+    monitor() {
+      if (!this.ftime) this.saveChange();
+      this.ftime = false;
+    }
   }
 };
 </script>
