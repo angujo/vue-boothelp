@@ -19,5 +19,6 @@ export default {
   top: 0;
   bottom: 0;
   width: 100%;
+  position: absolute;
 }
 </style>
