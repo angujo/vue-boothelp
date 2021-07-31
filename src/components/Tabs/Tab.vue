@@ -47,7 +47,6 @@ export default {
         () => {
           isActive.value = hash === tabsProvider.activeTabHash;
           showSlot.value = true!==props.lazy || (true===props.lazy && true === isActive.value);
-          console.log(props.lazy, isActive.value, showSlot.value)
         }
     )
     onBeforeMount(() => {
