@@ -1,12 +1,21 @@
 <template>
   <div :class="[vertical?'d-flex align-items-start':'']">
-    <div :class="['nav position-relative',vertical?'nav-pills flex-column me-3':'nav-tabs']" role="tablist"
+    <div role="tablist" :class="['nav position-relative',vertical?'nav-pills flex-column me-3':'nav-tabs']"
          :aria-orientation="vertical?'vertical':null">
-      <button v-for="(tab,i) in tabList" :class="['nav-link',active===i?'active':'']" :id="tab.id+'-tab'"
+      <button type="button"
+              v-for="(tab, i) in tabs"
               :data-bs-toggle="vertical?'pill':'tab'"
-              :data-bs-target="'#'+tab.id" type="button" role="tab" @click="selectTab(i)" :key="tab.id"
-              :aria-controls="tab.id" :aria-selected="i===selectedIndex?'true':'false'">
-        <span :class="[rotate?'vb_tabs_rot_270':'']"><span v-html="tab.title"/></span>
+              :key="tab.id"
+              :id="tab.id+'-tab'"
+              :class="['nav-link',tab.isActive?'active':'', tab.isDisabled ? 'disabled' : '', ]"
+              :aria-disabled="tab.isDisabled"
+              :aria-controls="tab.id"
+              :aria-selected="tab.isActive"
+              role="tab"
+      >
+        <span v-html="tab.title" :class="[rotate?'vb_tabs_rot_270':'']"
+              :aria-controls="tab.id"
+              @click="selectTab(tab.hash, $event)"/>
       </button>
     </div>
     <div :class="['tab-content p-3',vertical?'col':'']">
@@ -15,67 +24,90 @@
   </div>
 </template>
 
-<script lang="ts">
-import _ from './../../helpers';
-import {computed, provide, ref} from "vue";
+<script>
+import {reactive, provide, onMounted, toRefs} from 'vue';
 
 export default {
   name: "Tabs",
   props: {
-    vertical: Boolean,
-    rotate: Boolean,
-    modelValue: {
-      type: [String, Number],
+    vertical: {type: Boolean, default: false},
+    rotate: {type: Boolean, default: false},
+    cacheLifetime: {
+      default: 5,
+    },
+    options: {
+      type: Object,
+      required: false,
+      default: () => ({
+        useUrlFragment: true,
+        defaultTabHash: null,
+      }),
     },
   },
-  setup(props, {emit}) {
-    const ind = props.modelValue || 0;
-    const active = computed(() => ind);
-    const tabs = ref([]);
-
-    function selectTab(tab) {
-      emit("update:modelValue", tab);
-    }
-
-    provide("vcTabs", {
-      active,
-      tabs,
-    });
-
-    return {
-      tabs,
-      active,
-      selectTab,
-    };
-  },
-  data() {
-    return {selectedIndex: 0, t: null,}
-  },
-  methods: {
-    selectOne(i) {
-      this.selectedIndex = i;
-    }
-  },
-  computed: {
-    tabList() {
-      return this.tabs.map(c => {
-        c.props.isActive = true;
-        return {id: 'tab' + _.md5(c.props.title), title: c.props.title};
+  emits: ['changed', 'clicked'],
+  setup(props, context) {
+    const state = reactive({
+      activeTabHash: '',
+      lastActiveTabHash: '',
+      id: '',
+      title: '',
+      tabs: []
+    })
+    provide('tabsProvider', state)
+    // const storageKey = `vue-tabs-component.cache.${window.location.host}${window.location.pathname}`
+    const selectTab = (selectedTabHash, event) => {
+      if (event && !props.options.useUrlFragment) {
+        event.preventDefault();
+      }
+      const selectedTab = findTab(selectedTabHash);
+      if (!selectedTab) {
+        return;
+      }
+      if (event && selectedTab.isDisabled) {
+        event.preventDefault();
+        return;
+      }
+      if (state.lastActiveTabHash === selectedTab.hash) {
+        context.emit('clicked', {tab: selectedTab});
+        return;
+      }
+      state.tabs.forEach(tab => {
+        tab.isActive = (tab.hash === selectedTab.hash);
       });
+      context.emit('changed', {tab: selectedTab});
+      state.lastActiveTabHash = state.activeTabHash = selectedTab.hash;
+      //  expiringStorage.set(storageKey, selectedTab.hash, props.cacheLifetime);
+    }
+    const findTab = (hash) => {
+      return state.tabs.find(tab => tab.hash === hash);
+    }
+    onMounted(() => {
+      if (!state.tabs.length) {
+        return;
+      }
+      window.addEventListener('hashchange', () => selectTab(window.location.hash));
+      if (findTab(window.location.hash)) {
+        selectTab(window.location.hash);
+        return;
+      }
+      /* const previousSelectedTabHash = expiringStorage.get(storageKey);
+       if (findTab(previousSelectedTabHash)) {
+         selectTab(previousSelectedTabHash);
+         return;
+       }*/
+      if (props.options.defaultTabHash && findTab("#" + props.options.defaultTabHash)) {
+        selectTab("#" + props.options.defaultTabHash);
+        return;
+      }
+      selectTab(state.tabs[0].hash);
+    })
+    return {
+      ...toRefs(state),
+      selectTab,
+      findTab
     }
   },
-  mounted() {
-    this.selectOne(0);
-  },
-  beforeMount() {
-    /*this.tabs = this.$slots.default().filter((child) => child.type.name === "Tab").map(c => {
-      c.props.isActive = true;
-      return {id: 'tab' + _.md5(c.props.title), title: c.props.title};
-    });*/
-  },
-  created() {
-  }
-};
+}
 </script>
 
 <style scoped>
@@ -85,10 +117,10 @@ export default {
   padding: 8px 5px;
   line-height: 1;
 
-  -ms-transform:rotate(180deg); /* IE 9 */
-  -moz-transform:rotate(180deg); /* Firefox */
-  -webkit-transform:rotate(180deg); /* Safari and Chrome */
-  -o-transform:rotate(180deg); /* Opera */
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -moz-transform: rotate(180deg); /* Firefox */
+  -webkit-transform: rotate(180deg); /* Safari and Chrome */
+  -o-transform: rotate(180deg); /* Opera */
   transform: rotate(180deg);
 }
 </style>

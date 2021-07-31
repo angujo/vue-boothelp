@@ -1,5 +1,11 @@
 <template>
-  <div :class="['tab-pane fade',isActive?'show active':'']" :id="id" role="tabpanel" :aria-labelledby="id+'-tab'">
+  <div v-show="isActive"
+       :aria-hidden="!isActive"
+       :class="['tab-pane fade',isActive?'show active':'']"
+       :id="computedId"
+       role="tabpanel"
+       :aria-labelledby="computedId+'-tab'"
+       ref="tab">
     <template v-if="showSlot">
       <slot/>
     </template>
@@ -7,40 +13,62 @@
 </template>
 
 <script>
-import _                                                   from './../../helpers';
-import {computed, getCurrentInstance, inject, watchEffect} from "vue";
+import {inject, watch, ref, onBeforeMount} from 'vue';
+import _                                   from './../../helpers';
 
 export default {
   name: "Tab",
-  props: {title: {type: String, default: '#TabTitle'}, lazy: Boolean},
-  setup(props) {
-    const instance = getCurrentInstance();
-    const {tabs, active} = inject("vcTabs");
-
-    const index = computed(() =>
-        tabs.value.findIndex((target) => target.uid === instance.uid)
-    );
-    const isActive = computed(() => index.value === active.value);
-
-    watchEffect(() => {
-      if (index.value === -1) {
-        tabs.value.push(instance);
-      }
-    });
-
-    return {
-      isActive,
-    };
-  },
-  computed: {
-    id() {
-      return 'tab' + _.md5(this.title);
+  props: {
+    id: {
+      type: String,
+      default: null
     },
-    showSlot() {
-      return !this.lazy || (this.lazy && this.isActive);
+    title: {
+      type: String,
+      required: true
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
+    },
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+  },
+  setup(props) {
+    const isActive = ref(false)
+    const showSlot = ref(false)
+    const tabsProvider = inject('tabsProvider')
+    const computedId = props.id ? props.id : _.md5(props.title)
+    const hash = '#' + (!props.isDisabled ? computedId : '')
+    watch(
+        () => tabsProvider.activeTabHash,
+        () => {
+          isActive.value = hash === tabsProvider.activeTabHash;
+          showSlot.value = true!==props.lazy || (true===props.lazy && true === isActive.value);
+          console.log(props.lazy, isActive.value, showSlot.value)
+        }
+    )
+    onBeforeMount(() => {
+      tabsProvider.tabs.push({
+        title: props.title,
+        isDisabled: props.isDisabled,
+        hash: hash,
+        id: computedId,
+        index: tabsProvider.tabs.length
+      })
+    })
+    return {
+      computedId,
+      hash,
+      isActive,
+      showSlot
     }
   }
-};
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
