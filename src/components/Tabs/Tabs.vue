@@ -2,21 +2,19 @@
   <div :class="[vertical?'d-flex align-items-start':'']">
     <div role="tablist" :class="['nav position-relative',vertical?'nav-pills flex-column me-3':'nav-tabs']"
          :aria-orientation="vertical?'vertical':null">
-      <button type="button"
-              v-for="(tab, i) in tabs"
-              :data-bs-toggle="vertical?'pill':'tab'"
-              :key="tab.id"
-              :id="tab.id+'-tab'"
-              :class="['nav-link',tab.isActive?'active':'', tab.isDisabled ? 'disabled' : '', ]"
-              :aria-disabled="tab.isDisabled"
-              :aria-controls="tab.id"
-              :aria-selected="tab.isActive"
-              role="tab"
-      >
-        <span v-html="tab.title" :class="[rotate?'vb_tabs_rot_270':'']"
-              :aria-controls="tab.id"
-              @click="selectTab(tab.hash, $event)"/>
-      </button>
+      <template v-for="(tab, i) in tabs"     :key="tab.id">
+        <button type="button"
+                :data-bs-toggle="vertical?'pill':'tab'"
+                :id="tab.id+'-tab'"
+                :class="['nav-link',tab.isActive?'active':'', tab.isDisabled ? 'disabled' : '', ]"
+                :aria-disabled="tab.isDisabled"
+                :aria-controls="tab.id"
+                :aria-selected="tab.isActive"
+                role="tab"
+                @click="selectTab(tab.hash, $event)">
+          <span v-html="tab.title" :class="[rotate?'vb_tabs_rot_270':'']" :aria-controls="tab.id"/>
+        </button>
+      </template>
     </div>
     <div :class="['tab-content p-3',vertical?'col':'']">
       <slot/>
