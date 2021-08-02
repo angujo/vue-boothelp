@@ -42,22 +42,22 @@ export default {
       if (!this.cData || !Array.isArray(this.cData)) this.cData = [];
     },
     serverData() {
-      if (null === this.url) {
+      if (!_.isUrl(this.url)) {
         console.error('Invalid URL');
         return;
       }
       this.$parent.$parent.loading = true;
       this.$http.get(this.url, this.getParams)
-           .then(resp => {
-             this.cData = Array.isArray(resp.data) ? resp.data : resp.data.data;
-             this.nonced = this.isNonce;
-             this.$emit('onTotal', Array.isArray(resp.data) || !this.cData.total ? this.cData.length : this.cData.total);
-           })
-           .catch(err => {
-           })
-           .then(r => {
-             this.$parent.$parent.loading = false;
-           });
+          .then(resp => {
+            this.cData = Array.isArray(resp.data) ? resp.data : resp.data.data;
+            this.nonced = this.isNonce;
+            this.$emit('onTotal', Array.isArray(resp.data) || !this.cData.total ? this.cData.length : this.cData.total);
+          })
+          .catch(err => {
+          })
+          .then(r => {
+            this.$parent.$parent.loading = false;
+          });
     },
     queryCheck(rd, k, q) {
       if (k === this.searchVar) {
@@ -108,6 +108,8 @@ export default {
         if (_.isNotEmptyObject(this.searches)) conf.params.search = this.searches;
         if (_.isNotEmptyObject(this.sorts)) conf.params.sort = this.sorts;
       }
+      conf.params[this.$parent.$parent.pageVar] = parseInt(this.page + '');
+      conf.params[this.$parent.$parent.sizeVar] = parseInt(this.count + '');
       return conf;
     },
     optimizedData() {

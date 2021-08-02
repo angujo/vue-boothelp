@@ -41,6 +41,8 @@ export default {
       },
     },
     searchVar: {type: String, default: '_q'},
+    pageVar: {type: String, default: 'page'},
+    sizeVar: {type: String, default: 'per_page'},
     url: String,
     nonceUrl: String,
     noSearch: Boolean,
