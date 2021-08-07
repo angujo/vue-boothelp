@@ -1,4 +1,5 @@
 export default {
+    has(obj, key) { return this.isPlainObject(obj) && key in obj; },
     isUrl(str) {
         if (!this.isString(str)) return false;
         if (/^(\/[a-zA-Z])/.test(str)) str = location.protocol + '//' + location.host + str;

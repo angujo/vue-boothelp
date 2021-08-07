@@ -10,7 +10,7 @@ export default {
                     // We are in a validation error
                     if (_.has(error.response.data, 'errors') && _.isPlainObject(error.response.data.errors)) {
                         for (let [field, msg] of Object.entries(error.response.data.errors)) {
-                            if (_.isArray(msg) && msg.length > 0) return msg[0];
+                            if (Array.isArray(msg) && msg.length > 0) return msg[0];
                         }
                     }
                     return error.response.data.message;
@@ -25,7 +25,7 @@ export default {
         if (error.message) {
             if (_.has(error, 'errors') && _.isPlainObject(error.errors)) {
                 for (let [field, msg] of Object.entries(error.errors)) {
-                    if (_.isArray(msg) && msg.length > 0) return msg[0];
+                    if (Array.isArray(msg) && msg.length > 0) return msg[0];
                 }
             }
             return error.message;
