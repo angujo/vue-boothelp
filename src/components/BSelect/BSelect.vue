@@ -177,7 +177,7 @@ export default {
        .then(r => {v.ajaxLoading = false;});
     }, 1500),
     getOptions(q) {
-      if (!_.isString(q) || q.toString().trim().length <= 0) return;
+      if (!_.isUrl(this.url) || !_.isString(q) || q.toString().trim().length <= 0) return;
       this.bounce(this, q);
     },
   },
