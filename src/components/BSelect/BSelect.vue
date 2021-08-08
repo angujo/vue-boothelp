@@ -1,5 +1,6 @@
 <template>
-  <multiselect :mode="theMode" :options="theOptions()"  :resolve-on-load="resolveOnLoad" :searchable="canSearch">
+  <multiselect :mode="theMode" :minChars="minChars" :filterResults="true" :resolveOnLoad="resolveOnLoad" :delay="2"
+               :options="syncBased?async (q)=> {return await getOptions(q); }:theOptions" :searchable="canSearch">
     <template #placeholder="props">
       <slot name="placeholder" v-bind="props"/>
     </template>
@@ -58,7 +59,8 @@ export default {
     multiple: Boolean,
     tags: Boolean,
     params: {type: Object, default() {return {}}},
-    options: {type: [Array, Object, Function], default() {return []}},
+    minChars: {type: Number, default: 2},
+    options: {type: [Array, Object], default() {return []}},
   },
   methods: {
     ...mh,
@@ -83,11 +85,12 @@ export default {
                 });
       return opts;
     },
-    theOptions() {
-      return (_.isUrl(this.url) ? this.getOptions : this.options);
-    },
   },
   computed: {
+    theOptions() {
+      return (_.isPlainObject(this.options) ? Object.entries(this.options).map(o => {return {label: o[1], id: o[0]}}) : this.options);
+    },
+    syncBased() {return _.isUrl(this.url)},
     canSearch() { return this.searchable || (_.isUrl(this.url) && !this.preLoad); },
     resolveOnLoad() {return _.isUrl(this.url) && this.preLoad === true;},
     theMode() {return this.tags ? 'tags' : (this.multiple ? 'multiple' : 'single');},

@@ -1,11 +1,8 @@
 <template>
   <div class="row justify-content-center align-items-center" style="height: 100vh">
     <div class="col-md-6 col-lg-4">
-      <b-select :options="[1,2,3,4,5]" label="email" value-prop="id" track-by="id" pre-load tags
-                url="https://jsonplaceholder.typicode.com/users" v-model="sv" @change="something">
-        <template #option="props">
-          <div>{{ props.option }}</div>
-        </template>
+      <b-select :options="[1,2,3,4,5]" label="email" value-prop="id" track-by="id"  tags
+                urls="https://jsonplaceholder.typicode.com/users" v-model="sv" @change="something">
       </b-select>
 
       <div class="mt-3">
