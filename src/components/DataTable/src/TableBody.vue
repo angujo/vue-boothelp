@@ -103,8 +103,8 @@ export default {
     getParams() {
       let conf = _.isPlainObject(this.urlConfig) ? this.urlConfig : {};
       conf = _.cleanObjectUnset((({headers, params, timeout, auth}) => ({headers, params, timeout, auth}))(conf), 'undefined');
+      if (!conf.params) conf.params = {};
       if (!_.isEmptyObject(this.searches) || !_.isEmptyObject(this.sorts)) {
-        if (!conf.params) conf.params = {};
         if (_.isNotEmptyObject(this.searches)) conf.params.search = this.searches;
         if (_.isNotEmptyObject(this.sorts)) conf.params.sort = this.sorts;
       }

@@ -100,7 +100,7 @@ export default {
     multiple: {type: Boolean, default: false},
     trackBy: {type: String, default: null},
     label: {type: String, default: null},
-    searchable: {type: Boolean, default: true},
+    searchable: {type: Boolean, default: false},
     clearOnSelect: {type: Boolean, default: false},
     hideSelected: {type: Boolean, default: true},
     placeholder: {type: String, default: 'Select option'},
