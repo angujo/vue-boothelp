@@ -1,11 +1,8 @@
 <template>
   <div class="row justify-content-center align-items-center" style="height: 100vh">
     <div class="col-md-6 col-lg-4">
-      <b-select :options="[1,2,3,4,5]" multiple label="email"
+      <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchable track-by="id"
                 url="https://jsonplaceholder.typicode.com/users" v-model="sv" @change="something">
-        <template #option="{option}">
-          <div class="fst-italic">{{ option }}</div>
-        </template>
       </b-select>
 
       <div class="mt-3">
@@ -62,7 +59,7 @@ import BSelect   from "@/components/BSelect/BSelect";
 export default {
   name: "ImageTest",
   components: {BSelect,},
-  data() {return {dt: [], sv: null}},
+  data() {return {dt: [], sv: null, cnt: null}},
   methods: {
     something() {console.log('It bounced!!')}
   }

@@ -1,12 +1,11 @@
 <template>
   <VueMultiselect
       :modelValue="modelValue"
-      @update:model-value="d=>{$emit('update:modelValue',d)}"
+      @update:model-value="valueUpdated"
       :id="id"
       :options="ajaxList"
-      :value="value"
       :multiple="multiple"
-      :trackBy="trackBy"
+      :trackBy="tracker"
       :label="label"
       :searchable="canSearch"
       :clearOnSelect="clearOnSelect"
@@ -98,7 +97,7 @@ export default {
     options: {type: Array, default: Array},
     value: [Object, Array, String, Number],
     multiple: {type: Boolean, default: false},
-    trackBy: {type: String, default: null},
+    trackBy: {type: String, default: 'id'},
     label: {type: String, default: null},
     searchable: {type: Boolean, default: false},
     clearOnSelect: {type: Boolean, default: false},
@@ -135,15 +134,19 @@ export default {
     showPointer: {type: Boolean, default: true},
     optionHeight: {type: Number, default: 40},
     modelValue: null,
+    content: null,
+    valueProp: String,
     url: String,
     noNotification: Boolean,
     preLoad: Boolean,
     tags: Boolean,
     params: {type: Object, default() {return {}}},
+    // reduce: {type: Function, default(v) {return v}},
     minChars: {type: Number, default: 2},
   },
   data() {
     return {
+      theValue: this.modelValue,
       ajaxLoading: false,
       ajaxList: this.options
     }
@@ -152,13 +155,6 @@ export default {
     ...mh,
     cLabel(opt) {
       if (this.label && _.has(opt, this.label)) return _.objectGet(opt, this.label);
-      return opt;
-    },
-    syncOption(option) {
-      if (!_.isPlainObject(option)) return option;
-      let opt = {label: null, value: null};
-      if (this.$attrs['label']) opt.label = _.objectGet(option, this.$attrs['label']);
-      if (this.$attrs['track-by']) opt.value = _.objectGet(option, this.$attrs['track-by']);
       return opt;
     },
     bounce: _.debounce((v, q) => {
@@ -175,13 +171,30 @@ export default {
          if (!v.noNotification) v.notifyError(er);
        })
        .then(r => {v.ajaxLoading = false;});
-    }, 1500),
+    }, 500),
     getOptions(q) {
       if (!_.isUrl(this.url) || !_.isString(q) || q.toString().trim().length <= 0) return;
       this.bounce(this, q);
     },
+    valueUpdated(v) {
+      if (Array.isArray(v)) v = _.unique(v);
+      this.theValue = v;
+      this.$emit('update:modelValue', v);
+      if (this.valProp) {
+        if (_.isPlainObject(v) && _.has(v, this.valProp)) this.$emit('update:content', _.objectGet(v, this.valProp));
+        else if (Array.isArray(v)) this.$emit('update:content', v.map(c => {return _.isPlainObject(c) && _.has(c, this.valProp) ? _.objectGet(c, this.valProp) : null;}));
+        else this.$emit('update:content', null);
+      }
+      else this.$emit('update:content', v);
+    }
   },
   computed: {
+    tracker() {
+      return this.trackBy ? this.trackBy : (this.valueProp ? this.valueProp : null);
+    },
+    valProp() {
+      return this.valueProp ? this.valueProp : (this.trackBy ? this.trackBy : null);
+    },
     theTag() {return this.tags},
     theOptions() {
       return _.isUrl(this.url) ? this.ajaxList : this.options;
@@ -190,6 +203,11 @@ export default {
     canSearch() { return this.searchable || (_.isUrl(this.url) && !this.preLoad); },
     resolveOnLoad() {return _.isUrl(this.url) && this.preLoad === true;},
     theMode() {return this.tags ? 'tags' : (this.multiple ? 'multiple' : 'single');},
+  },
+  watch: {
+    theValue(v) {
+
+    }
   },
   mounted() {
     if (this.preLoad) this.getOptions();

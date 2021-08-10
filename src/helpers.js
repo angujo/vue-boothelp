@@ -1,4 +1,8 @@
 export default {
+    unique(arr) {
+        if (!Array.isArray(arr)) return arr;
+        return [...new Set(arr)];
+    },
     has(obj, key) { return this.isPlainObject(obj) && key in obj; },
     isUrl(str) {
         if (!this.isString(str)) return false;
