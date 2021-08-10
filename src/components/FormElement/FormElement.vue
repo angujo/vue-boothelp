@@ -29,7 +29,7 @@
 </template>
 
 <script>
-
+const lodashCloneDeep = require('lodash.clonedeep');
 import _                 from './../../helpers';
 import lmix              from './../../mixin-helper';
 import NotificationMixin from "./../Notification/NotificationMixin";
@@ -40,6 +40,7 @@ export default {
   components: {ProgressOverlay},
   mixins: [NotificationMixin],
   props: {
+    remove: {type: [Array, String], default: null},
     required: {type: [Array, Object, String], default: null},
     loadUrl: {type: String, default: null},
     method: String,
@@ -65,6 +66,17 @@ export default {
   },
   methods: {
     ...lmix,
+    submittableFields() {
+      let fields = lodashCloneDeep(this.fields),
+          dels = this.remove;
+      if (_.isString(this.remove)) dels = this.remove.split(',');
+      dels = (Array.isArray(dels) ? dels : []).filter(d => _.isString(d));
+      if (0 >= dels.length) return fields;
+      for (let i = 0; i < dels.length; i++) {
+        _.deleteKey(fields, dels[i]);
+      }
+      return fields;
+    },
     checkRequired() {
       if (!this.required || this.required.length === 0) return true;
       let reqs = [];
@@ -99,17 +111,17 @@ export default {
     loadData() {
       this.fetching = true;
       this.$http.get(this.loadUrl)
-           .then(resp => {
-             this.$emit('loaded', resp.data);
-           })
-           .catch(error => {
-             if (!this.noNotification) this.notifyError(this.logGetError(error));
-             this.$emit('loadError', error);
-           })
-           .then(r => {
-             this.$emit('loadComplete', ...arguments);
-             this.fetching = false;
-           })
+          .then(resp => {
+            this.$emit('loaded', resp.data);
+          })
+          .catch(error => {
+            if (!this.noNotification) this.notifyError(this.logGetError(error));
+            this.$emit('loadError', error);
+          })
+          .then(r => {
+            this.$emit('loadComplete', ...arguments);
+            this.fetching = false;
+          })
     },
     fDataValue(formData, key, val) {
       if (Array.isArray(val)) {
@@ -125,27 +137,30 @@ export default {
       if (this.method && ['put', 'patch', 'delete'].includes(this.method.toString().toLowerCase())) {
         this.fields['_method'] = this.method.toString().toUpperCase();
       }
-      let headers = {}, formData = this.fields;
+      let headers = {},
+          fields = this.submittableFields(),
+          formData = {};
       if (this.multiPart) {
         headers = Object.assign({}, headers, {'Content-Type': 'multipart/form-data'});
         formData = new FormData();
-        for (const [k, v] of Object.entries(this.fields)) {
+        for (const [k, v] of Object.entries(fields)) {
           this.fDataValue(formData, k, v);
         }
       }
+      else formData = fields;
       this.$http.post(this.url, formData, {headers})
-           .then(resp => {
-             if (!this.noNotification) this.notifySuccess(_.isString(resp.data) && 0 < resp.data.length ? resp.data : 'Successfully Submitted');
-             this.$emit('success', resp.data);
-           })
-           .catch(error => {
-             if (!this.noNotification) this.notifyError(this.logGetError(error));
-             this.$emit('error', error);
-           })
-           .then(r => {
-             this.$emit('complete', ...arguments);
-             this.loading = false;
-           })
+          .then(resp => {
+            if (!this.noNotification) this.notifySuccess(_.isString(resp.data) && 0 < resp.data.length ? resp.data : 'Successfully Submitted');
+            this.$emit('success', resp.data);
+          })
+          .catch(error => {
+            if (!this.noNotification) this.notifyError(this.logGetError(error));
+            this.$emit('error', error);
+          })
+          .then(r => {
+            this.$emit('complete', ...arguments);
+            this.loading = false;
+          })
     }
   },
   mounted() {

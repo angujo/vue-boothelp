@@ -1,6 +1,6 @@
 {
   "name": "vue-boothelp",
-  "version": "1.0.47",
+  "version": "1.1.0",
   "description": "A Group of Vue3 component to make life easy",
   "main": "src/index.js",
   "jsnext:main": "src/index.js",
@@ -25,8 +25,10 @@
     "bootstrap-icons": "^1.5.0",
     "core-js": "^3.6.5",
     "dropzone": "^5.9.2",
+    "lodash.clonedeep": "^4.5.0",
     "mitt": "^3.0.0",
     "mosha-vue-toastify": "^1.0.17",
+    "v-calendar": "^3.0.0-alpha.5",
     "vue": "^3.0.0-beta.1",
     "vue-multiselect": "^3.0.0-alpha.2",
     "vue-popperjs": "^2.3.0",

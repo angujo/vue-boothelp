@@ -14,6 +14,7 @@ import Imager            from "./components/Imager/Imager";
 import BounceOverlay     from "./components/BounceOverlay/BounceOverlay";
 import NotificationMixin from "./components/Notification/NotificationMixin";
 import BSelect           from "./components/BSelect/BSelect";
+import DatetimeInput     from "./components/DatetimeInput";
 
 import mitt from 'mitt';
 import _    from './helpers';
@@ -47,6 +48,7 @@ export default {
         app.component('imager', Imager);
         app.component('bounce-overlay', BounceOverlay);
         app.component('b-select', BSelect);
+        app.component('datetime-input', DatetimeInput);
     },
 };
 
@@ -67,5 +69,6 @@ export {
     Imager,
     BounceOverlay,
     BSelect,
-    NotificationMixin
+    NotificationMixin,
+    DatetimeInput
 };

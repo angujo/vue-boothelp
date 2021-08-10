@@ -1,4 +1,14 @@
 export default {
+    deleteKey(obj, key) {
+        if (!this.isPlainObject(obj) || !this.isString(key)) return;
+        let keys = key.split('.');
+        if (!keys.length) return;
+        let f = keys.shift();
+        if (0 < keys.length) {
+            if (obj.hasOwnProperty(f)) this.deleteKey(obj[f], keys.join('.'));
+        }
+        else delete obj[f];
+    },
     unique(arr) {
         if (!Array.isArray(arr)) return arr;
         return [...new Set(arr)];
