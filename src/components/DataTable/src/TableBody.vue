@@ -187,7 +187,7 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+   // this.getData();
     this.$mitt.on('reload', () => {
       this.getData();
     });

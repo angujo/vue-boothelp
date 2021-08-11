@@ -211,6 +211,7 @@ export default {
   },
   mounted() {
     if (this.preLoad) this.getOptions();
+    if (this.syncBased && this.modelValue) this.ajaxList.push(this.modelValue);
   }
 };
 </script>

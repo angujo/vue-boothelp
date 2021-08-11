@@ -1,4 +1,11 @@
 export default {
+    isEmpty(obj) {
+        if (!isNaN(obj) || this.isBoolean(obj)) return false;
+        if (this.isString(obj)) return obj.toString().trim().length > 0;
+        if (Array.isArray(obj)) return obj.map(o => this.isEmpty(o)).filter(o => !o).length > 0;
+        if (this.isPlainObject(obj)) return Object.keys(obj).length <= 0 || this.isEmpty(Object.values(obj));
+        return null === obj || typeof obj === 'undefined' || (!isNaN(obj) && !obj);
+    },
     deleteKey(obj, key) {
         if (!this.isPlainObject(obj) || !this.isString(key)) return;
         let keys = key.split('.');
