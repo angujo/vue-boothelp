@@ -1,4 +1,13 @@
 export default {
+    addDays(date, days) {
+        let result = new Date(this.isValidDate(date) ? date : new Date());
+        result.setDate(result.getDate() + days);
+        return result;
+    },
+    isValidDate(dt) {
+        let date = new Date(dt);
+        return date.getTime() - date.getTime() === 0
+    },
     isEmpty(obj) {
         if (!isNaN(obj) || this.isBoolean(obj)) return false;
         if (this.isString(obj)) return obj.toString().trim().length > 0;

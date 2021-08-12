@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     showEmpty() {
-      return this.emptyCheck && this.content && _.isFunction(this.isEmpty) && true === this.isEmpty.call(this,this.content);
+      return this.emptyCheck && (!this.content || (_.isFunction(this.isEmpty) && true === this.isEmpty.call(this, this.content)));
     }
   },
   mounted() {
@@ -104,6 +104,7 @@ export default {
   width: 100%;
   position: absolute;
 }
+
 .bg-failed {
   background-color: #ffe5e5 !important;
 }

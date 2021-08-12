@@ -24,8 +24,13 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Select</label>
-          <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchable track-by="id"
-                    url="https://jsonplaceholder.typicode.com/users" v-model="sv" @change="something">
+          <VueMultiselect :options="[1,2,3,4,5]" multiple v-model="cnt"/>
+        </div>
+          <div class="mb-3">
+            <label class="form-label">Select</label>
+          <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchablex track-by="id"
+                    :show-labels="true" :close-on-select="false"
+                    urlxx="https://jsonplaceholder.typicode.com/users" v-model="sv" >
           </b-select>
         </div>
         <div class="mb-3">
@@ -56,8 +61,8 @@
            <tab title="Tab 103"  lazy>
             <comp-cycle>Am another:Lazy</comp-cycle>
            </tab>
-         </tabs>-->
-      <!--    <data-load class="col-6" url="https://jsonplaceholder.typicode.com/users" @loaded="d=>{dt=d;}">
+         </tabs>
+         <data-load class="col-6" url="https://jsonplaceholder.typicode.com/users" @loaded="d=>{dt=d;}">
             <bounce-overlay :monitor="dt" @bounced="something" url="/user">
               <draggable v-model="dt" item-key="bouncer">
                 <template #item="{element}">
@@ -66,8 +71,8 @@
               </draggable>
             </bounce-overlay>
             {{ dt.length }} Records
-          </data-load>-->
-      <!--    <div>
+          </data-load>
+          <div>
             <imager src="https://picsum.photos/200/300?text=Small" medium circle alt="..."/>
             <imager src="https://picsum.photos/200/300?text=Small" medium square alt="..."/>
             <imager src="https://picsum.photos/200/300?text=Medium+Square" medium rectangle alt="..."/>
@@ -94,11 +99,12 @@ import Tab           from "@/components/Tabs/Tab";
 import CompCycle     from "./CompCycle";
 import BSelect       from "@/components/BSelect/BSelect";
 import FormElement   from "@/components/FormElement/FormElement";
-import DatetimeInput from "@/components/DatetimeInput/DatetimeInput";
+import DatetimeInput  from "@/components/DatetimeInput/DatetimeInput";
+import VueMultiselect from "vue-multiselect";
 
 export default {
   name: "ImageTest",
-  components: {DatetimeInput, FormElement, BSelect},
+  components: {DatetimeInput, FormElement, BSelect,VueMultiselect},
   data() {
     return {
       dt: {

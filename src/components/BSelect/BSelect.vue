@@ -91,7 +91,7 @@ export default {
   name: "BSelect",
   components: {VueMultiselect},
   mixins: [NotificationMixin],
-  emits: ['change', 'close', 'deselect', 'open', 'search-change', 'select', 'tag', 'clear', 'update:modelValue'],
+  emits: ['change', 'close', 'deselect', 'open', 'search-change', 'select', 'tag', 'clear', 'update:modelValue','update:content'],
   props: {
     id: {type: [Number, String], default: null},
     options: {type: Array, default: Array},
