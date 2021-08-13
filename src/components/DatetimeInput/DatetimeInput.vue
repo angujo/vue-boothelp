@@ -72,6 +72,7 @@ export default {
       this.dValue.end =
           this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
     }
+    else this.dValue = this.modelValue;
   }
 };
 </script>
