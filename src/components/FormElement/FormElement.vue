@@ -104,7 +104,7 @@ export default {
       for (let i = 0; i < reqs.length; i++) {
         let k = reqs[i][0], v = reqs[i][1],
             m = _.objectGet(this.fields, k, null);
-        if (null === m || typeof m === 'undefined' || (_.isString(m) && 0 >= m.toString().length)) {this.requireList.push(v);}
+        if (_.isEmpty(m)) {this.requireList.push(v);}
       }
       return this.requireList.length === 0;
     },

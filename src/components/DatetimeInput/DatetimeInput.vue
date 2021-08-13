@@ -40,14 +40,38 @@ export default {
     startProp: {type: String, default: 'start_date'},
     endProp: {type: String, default: 'end_date'},
   },
-  data() {return {dValue: null}},
+  data() {return {dValue: null, ignore: false}},
+  methods: {
+    setDate() {
+      if (this.range) {
+        this.dValue = {start: new Date(), end: (new Date())};
+        let s = this.startProp, e = this.endProp;
+        if (Array.isArray(this.modelValue)) {
+          s = 0;
+          e = 1;
+        }
+        this.dValue.start = this.modelValue[s] && _.isValidDate(this.modelValue[s]) ? new Date(this.modelValue[s]) : new Date();
+        this.dValue.end =
+            this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
+      }
+      else this.dValue = this.modelValue;
+      this.ignore = false;
+    }
+  },
   computed: {
     mode() {
       return this.time ? 'time' : (this.date ? 'date' : 'dateTime');
     },
   },
   watch: {
+    modelValue(v) {
+      this.ignore = true;
+      this.setDate();
+    },
     dValue(v) {
+      if (this.ignore) {
+        return;
+      }
       let nv = v;
       if (this.range) {
         if (Array.isArray(this.modelValue)) nv = [v.start, nv.end];
@@ -61,18 +85,7 @@ export default {
     }
   },
   mounted() {
-    if (this.range) {
-      this.dValue = {start: new Date(), end: (new Date())};
-      let s = this.startProp, e = this.endProp;
-      if (Array.isArray(this.modelValue)) {
-        s = 0;
-        e = 1;
-      }
-      this.dValue.start = this.modelValue[s] && _.isValidDate(this.modelValue[s]) ? new Date(this.modelValue[s]) : new Date();
-      this.dValue.end =
-          this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
-    }
-    else this.dValue = this.modelValue;
+    this.setDate();
   }
 };
 </script>
