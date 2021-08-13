@@ -9,9 +9,10 @@ export default {
         return date.getTime() - date.getTime() === 0
     },
     isEmpty(obj) {
-        if (!isNaN(obj) || this.isBoolean(obj)) return false;
-        if (this.isString(obj)) return obj.toString().trim().length <= 0;
+        if (null===obj || (this.isString(obj) && obj.toString().trim().length <= 0)) return true;
         if (Array.isArray(obj)) return obj.map(o => this.isEmpty(o)).filter(o => !o).length <= 0;
+        if (this.isNumber(obj) || this.isBoolean(obj)) return false;
+        if (this.isString(obj)) return obj.toString().trim().length <= 0;
         if (this.isPlainObject(obj)) return Object.keys(obj).length <= 0 || this.isEmpty(Object.values(obj));
         return null === obj || typeof obj === 'undefined' || (!isNaN(obj) && !obj);
     },
@@ -99,6 +100,9 @@ export default {
     },
     isInt(obj) {
         return Number.isInteger(obj) || (!isNaN(obj) && parseInt(obj) == obj);
+    },
+    isNumber(obj) {
+        return !Array.isArray(obj) && (!isNaN(obj) || typeof obj==='number');
     },
     isType(obj, type) {
         return typeof obj === type;
