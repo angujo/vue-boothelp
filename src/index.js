@@ -15,6 +15,7 @@ import BounceOverlay     from "./components/BounceOverlay/BounceOverlay";
 import NotificationMixin from "./components/Notification/NotificationMixin";
 import BSelect           from "./components/BSelect/BSelect";
 import DatetimeInput     from "./components/DatetimeInput";
+import LoadButton     from "./components/LoadButton";
 
 import mitt from 'mitt';
 import _    from './helpers';
@@ -49,6 +50,7 @@ export default {
         app.component('bounce-overlay', BounceOverlay);
         app.component('b-select', BSelect);
         app.component('datetime-input', DatetimeInput);
+        app.component('load-button', LoadButton);
     },
 };
 
@@ -70,5 +72,6 @@ export {
     BounceOverlay,
     BSelect,
     NotificationMixin,
-    DatetimeInput
+    DatetimeInput,
+    LoadButton
 };
