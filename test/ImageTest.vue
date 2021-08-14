@@ -8,11 +8,11 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Date Range</label>
-          <datetime-input range date rows/>
+          <datetime-input v-model="dt.drange" range date rows/>
         </div>
         <div class="mb-3">
           <label class="form-label">Date</label>
-          <datetime-input date/>
+          <datetime-input v-model="dt.jdate" date/>
         </div>
         <div class="mb-3">
           <label class="form-label">DateTime</label>
@@ -24,23 +24,26 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Select</label>
-          <VueMultiselect :options="[1,2,3,4,5]" multiple v-model="cnt"/>
+          <VueMultiselect :options="[1,2,3,4,5]" multiple v-model="dt.cnt"/>
         </div>
-          <div class="mb-3">
-            <label class="form-label">Select</label>
+        <div class="mb-3">
+          <label class="form-label">Select</label>
           <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchablex track-by="id"
                     :show-labels="true" :close-on-select="false"
-                    urlxx="https://jsonplaceholder.typicode.com/users" v-model="sv" >
+                    urlxx="https://jsonplaceholder.typicode.com/users" v-model="sv">
           </b-select>
         </div>
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          <input type="email" class="form-control" id="exampleFormControlInput1" v-model="dt.email" placeholder="name@example.com">
         </div>
         <div class="mb-3">
           <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
+        <template #buttons>
+          <query-button :params="dt" class="btn btn-outline-info" url="/">Query Submission</query-button>
+        </template>
       </form-element>
       <!--
        <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchable track-by="id"
@@ -93,18 +96,21 @@
 </template>
 
 <script>
-import draggable     from "vuedraggable";
-import Tabs          from "@/components/Tabs/Tabs";
-import Tab           from "@/components/Tabs/Tab";
-import CompCycle     from "./CompCycle";
-import BSelect       from "@/components/BSelect/BSelect";
-import FormElement   from "@/components/FormElement/FormElement";
+import draggable      from "vuedraggable";
+import Tabs           from "@/components/Tabs/Tabs";
+import Tab            from "@/components/Tabs/Tab";
+import CompCycle      from "./CompCycle";
+import QueryButton    from "@/components/QueryButton/QueryButton";
+import BSelect        from "@/components/BSelect/BSelect";
+import FormElement    from "@/components/FormElement/FormElement";
 import DatetimeInput  from "@/components/DatetimeInput/DatetimeInput";
 import VueMultiselect from "vue-multiselect";
 
+import "@/css/data-table.scss";
+
 export default {
   name: "ImageTest",
-  components: {DatetimeInput, FormElement, BSelect,VueMultiselect},
+  components: {DatetimeInput, FormElement, BSelect, VueMultiselect, QueryButton},
   data() {
     return {
       dt: {

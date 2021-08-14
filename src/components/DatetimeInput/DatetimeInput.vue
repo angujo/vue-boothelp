@@ -50,9 +50,10 @@ export default {
           s = 0;
           e = 1;
         }
-        this.dValue.start = this.modelValue[s] && _.isValidDate(this.modelValue[s]) ? new Date(this.modelValue[s]) : new Date();
+        this.dValue.start =
+            this.modelValue && this.modelValue[s] && _.isValidDate(this.modelValue[s]) ? new Date(this.modelValue[s]) : new Date();
         this.dValue.end =
-            this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
+            this.modelValue && this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
       }
       else this.dValue = this.modelValue;
       this.ignore = false;
@@ -76,7 +77,7 @@ export default {
       if (this.range) {
         if (Array.isArray(this.modelValue)) nv = [v.start, nv.end];
         else {
-          nv = this.modelValue;
+          nv = this.modelValue && _.isPlainObject(this.modelValue) ? this.modelValue : {};
           nv[this.startProp] = v.start;
           nv[this.endProp] = v.end;
         }
