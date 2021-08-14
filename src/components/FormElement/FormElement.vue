@@ -17,7 +17,7 @@
           <div class="btn-group">
             <slot name="prebuttons"></slot>
             <load-button type="submit" :class="btnClass" :busy="loading" v-if="showButton" :inactive="inactiveButton">
-              <span v-else v-html="btnText"></span>
+              <span v-html="btnText"></span>
             </load-button>
             <slot name="buttons"></slot>
           </div>
