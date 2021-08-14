@@ -16,10 +16,9 @@
           </div>
           <div class="btn-group">
             <slot name="prebuttons"></slot>
-            <button type="submit" :class="btnClass" :disabled="loading" v-if="showButton" :inactive="inactiveButton">
-              <span v-if="loading"><i class="bi-gear bi-spin"/> Wait...</span>
+            <load-button type="submit" :class="btnClass" :busy="loading" v-if="showButton" :inactive="inactiveButton">
               <span v-else v-html="btnText"></span>
-            </button>
+            </load-button>
             <slot name="buttons"></slot>
           </div>
         </div>
@@ -33,11 +32,12 @@ const lodashCloneDeep = require('lodash.clonedeep');
 import _                 from './../../helpers';
 import lmix              from './../../mixin-helper';
 import NotificationMixin from "./../Notification/NotificationMixin";
+import LoadButton        from "./../LoadButton/LoadButton";
 import ProgressOverlay   from "./../ProgressOverlay/ProgressOverlay";
 
 export default {
   name: "FormElement",
-  components: {ProgressOverlay},
+  components: {ProgressOverlay, LoadButton},
   mixins: [NotificationMixin],
   props: {
     remove: {type: [Array, String], default: null},
