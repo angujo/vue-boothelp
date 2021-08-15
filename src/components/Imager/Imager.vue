@@ -1,13 +1,15 @@
 <template>
-  <img :src="src" :alt="alt" :class="['img-fluid vbhi_square',cirClass]"
-       :style="{width:width?width+'rem':null,height:height?height+'rem':null}">
+  <img :src="path" :alt="alt" :class="['img-fluid vbhi_square',cirClass]"
+       :style="{width:width?width+'rem':null,height:height?height+'rem':null}" v-if="path">
 </template>
 
 <script>
+import _ from './../../helpers';
+
 export default {
   name: "Imager",
   props: {
-    src: {type: String, require: true},
+    src: {type: [String, Object], require: true},
     alt: String,
     square: Boolean,
     circle: Boolean,
@@ -20,6 +22,23 @@ export default {
     medium: Boolean,
     extraLarge: Boolean,
     iWidth: {type: [String, Number], default: null},
+  },
+  data() {return {path: null}},
+  methods: {
+    getPath() {
+      if (_.isString(this.src)) {
+        this.path = this.src;
+        return;
+      }
+      if (!this.src instanceof File) return;
+      let FR = new FileReader(), vm = this;
+      FR.onload = function (e) {
+        //if you want to display it somewhere in your previewTemplate
+        vm.path = e.target.result
+        // temp.find('.my-preview').attr('src',); //setting as src of some img tag with class 'my-preview'
+      };
+      FR.readAsDataURL(vm.src);
+    }
   },
   computed: {
     cirClass() { return this.circle ? 'rounded-circle' : null; },
@@ -35,7 +54,9 @@ export default {
       if (this.banner) return (9 / 21) * this.width;
       return null;
     },
-  }
+  },
+  watch: {src(v) {this.getPath();}},
+  mounted() {this.getPath();}
 };
 </script>
 

@@ -44,16 +44,16 @@ export default {
   methods: {
     setDate() {
       if (this.range) {
-        this.dValue = {start: new Date(), end: (new Date())};
+        this.dValue = {start: null,end: null};
         let s = this.startProp, e = this.endProp;
         if (Array.isArray(this.modelValue)) {
           s = 0;
           e = 1;
         }
-        this.dValue.start =
-            this.modelValue && this.modelValue[s] && _.isValidDate(this.modelValue[s]) ? new Date(this.modelValue[s]) : new Date();
-        this.dValue.end =
-            this.modelValue && this.modelValue[e] && _.isValidDate(this.modelValue[e]) ? new Date(this.modelValue[e]) : _.addDays(this.dValue.start, 7);
+        if (this.modelValue) {
+          if (this.modelValue[s] && _.isValidDate(this.modelValue[s])) this.dValue.start = new Date(this.modelValue[s]);
+          if (this.modelValue[e] && _.isValidDate(this.modelValue[e])) this.dValue.end = new Date(this.modelValue[e]);
+        }
       }
       else this.dValue = this.modelValue;
       this.ignore = false;

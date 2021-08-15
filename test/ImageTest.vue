@@ -2,37 +2,49 @@
   <div class="row justify-content-center align-items-center" style="height: 100vh">
     <div class="col-md-6 col-lg-4">
       <form-element url="/" :fields="dt" :remove="['cat.addr.cntxx']">
-        <div class="mb-3">
-          <label class="form-label">Date Time Range</label>
-          <datetime-input range/>
+        <div class="row">
+          <div class="col-md-3">
+            <file-input drop-class="col" external-preview @addedfile="addImage" :auto-process-queue="false" url="/" multiple accepted-files="image/*"/>
+          </div>
+          <div class="col">
+            <template v-for="(im,i) in images" :key="i">
+              <div class="d-inline-block">
+                <imager :src="im.file" medium square/>
+              </div>
+            </template>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Date Range</label>
-          <datetime-input v-model="dt.drange" range date rows/>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date</label>
-          <datetime-input v-model="dt.jdate" date/>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">DateTime</label>
-          <datetime-input datetime/>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Time</label>
-          <datetime-input class="w-100" time/>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Select</label>
-          <VueMultiselect :options="[1,2,3,4,5]" multiple v-model="dt.cnt"/>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Select</label>
-          <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchablex track-by="id"
-                    :show-labels="true" :close-on-select="false"
-                    urlxx="https://jsonplaceholder.typicode.com/users" v-model="sv">
-          </b-select>
-        </div>
+        <!--        <div class="mb-3">
+                  <label class="form-label">Date Time Range</label>
+                  <datetime-input range/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Date Range</label>
+                  <datetime-input v-model="dt.drange" range date rows/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Date</label>
+                  <datetime-input v-model="dt.jdate" date/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">DateTime</label>
+                  <datetime-input datetime/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Time</label>
+                  <datetime-input class="w-100" time/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Select</label>
+                  <VueMultiselect :options="[1,2,3,4,5]" multiple v-model="dt.cnt"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Select</label>
+                  <b-select :options="[1,2,3,4,5]" multiple v-model:content="cnt" value-prop="id" searchablex track-by="id"
+                            :show-labels="true" :close-on-select="false"
+                            urlxx="https://jsonplaceholder.typicode.com/users" v-model="sv">
+                  </b-select>
+                </div>-->
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">Email address</label>
           <input type="email" class="form-control" id="exampleFormControlInput1" v-model="dt.email" placeholder="name@example.com">
@@ -107,12 +119,15 @@ import DatetimeInput  from "@/components/DatetimeInput/DatetimeInput";
 import VueMultiselect from "vue-multiselect";
 
 import "@/css/data-table.scss";
+import FileInput      from "@/components/FileInput/FileInput";
+import Imager         from "@/components/Imager/Imager";
 
 export default {
   name: "ImageTest",
-  components: {DatetimeInput, FormElement, BSelect, VueMultiselect, QueryButton},
+  components: {Imager, FileInput, FormElement, QueryButton},
   data() {
     return {
+      images: [],
       dt: {
         cat: {name: 'Cat 1', age: 34, addr: {phone: '0828383', street: 'Rd101', cnt: {p: 2323, k: 'fdshgdhfgdf'}}},
         fname: null,
@@ -121,6 +136,9 @@ export default {
     }
   },
   methods: {
+    addImage(file, url) {
+      this.images.push({url, file});
+    },
     something() {console.log('It bounced!!')}
   }
 }

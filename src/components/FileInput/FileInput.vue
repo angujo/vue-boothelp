@@ -12,8 +12,8 @@
         </template>
       </div>
     </div>
-    <div ref="prevs" class="dropzone-previews col list-group list-group-flush" v-if="internalPreview"></div>
-    <div ref="previewTemplate" class="position-absolute" style="visibility: hidden">
+    <div ref="prevs" class="dropzone-previews col list-group list-group-flush" v-if="internalPreview && !externalPreview"></div>
+    <div ref="previewTemplate" class="position-absolute" style="visibility: hidden" v-show="!externalPreview">
       <div class="dz-preview dz-file-preview ">
         <div v-if="multiple" class="list-group-item d-flex justify-content-between align-items-center">
           <div>
@@ -46,9 +46,14 @@ import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
   name: "FileInput",
+  emits: ['success', 'complete', 'error', 'maxfilesexceeded', 'drop', 'dragstart', 'dragend', 'dragenter', 'dragover', 'dragleave',],
   mixins: [NotificationMixin],
   props: {
     nFile: {type: Object,},
+    externalPreview: {
+      type: Boolean,
+      default: false,
+    },
     multiple: {
       type: Boolean,
       default: false,
@@ -295,7 +300,11 @@ export default {
     registerEvents() {
       var vm = this;
       this.dropzone.on('success', function (file, response) {
-        vm.$emit('success', file, response);
+        if (vm.externalPreview) {
+          vm.$emit('success', file, response, vm.imageUrl);
+          file.previewElement.outerHTML = "";
+        }
+        else vm.$emit('success', file, response);
       });
       this.dropzone.on('complete', function () {
         vm.$emit('complete');
@@ -322,7 +331,11 @@ export default {
           };
           FR.readAsDataURL(vm.sFile);
         }
-        vm.$emit('addedfile', file);
+        if (vm.externalPreview) {
+          file.previewElement.outerHTML = "";
+          vm.$emit('addedfile', file, vm.imageUrl);
+        }
+        else vm.$emit('addedfile', file);
       });
       this.dropzone.on('maxfilesexceeded', function (file) {
         console.error('ERROR :', 'Max number of files exceeded!')
