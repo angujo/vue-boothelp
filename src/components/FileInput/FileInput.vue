@@ -229,6 +229,9 @@ export default {
     }
   },
   methods: {
+    removeFile(file) {
+      this.dropzone.removeFile(file);
+    },
     reload(fnc) {
       if (!this.dropzone) this.initDropzone();
       this.dropzone.disable();

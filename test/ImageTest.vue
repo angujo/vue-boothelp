@@ -4,7 +4,8 @@
       <form-element url="/" :fields="dt" :remove="['cat.addr.cntxx']">
         <div class="row">
           <div class="col-md-3">
-            <file-input drop-class="col" external-preview @addedfile="addImage" :auto-process-queue="false" url="/" multiple accepted-files="image/*"/>
+            <file-input drop-class="col" external-preview @addedfile="addImage" :auto-process-queue="false" url="/" multiple
+                        accepted-files="image/*"/>
           </div>
           <div class="col">
             <template v-for="(im,i) in images" :key="i">
