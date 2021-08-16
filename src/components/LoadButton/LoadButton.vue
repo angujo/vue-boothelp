@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "ProgressOverlay",
+  name: "LoadButton",
   props: {
     busy: Boolean,
     type: {type: String, default: 'button'},

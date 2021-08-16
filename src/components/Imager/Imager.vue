@@ -30,7 +30,7 @@ export default {
         this.path = this.src;
         return;
       }
-      if (!this.src instanceof File) return;
+      if (!_.isObject(this.src) || !(this.src instanceof File)) return;
       let FR = new FileReader(), vm = this;
       FR.onload = function (e) {
         //if you want to display it somewhere in your previewTemplate

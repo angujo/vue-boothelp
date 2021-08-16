@@ -13,7 +13,7 @@ import lmix              from './../../mixin-helper';
 import NotificationMixin from "./../Notification/NotificationMixin";
 
 export default {
-  name: "ProgressOverlay",
+  name: "QueryButton",
   components: {LoadButton},
   mixins: [NotificationMixin],
   emits: ['success', 'error'],
