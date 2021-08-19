@@ -21,6 +21,7 @@ export default {
     paramName: {type: String, default: 'data'},
     reduce: [String, Function],
     noNotification: Boolean,
+    params: Object,
   },
   data() {return {submitting: false, ftime: true}},
   methods: {
@@ -31,7 +32,7 @@ export default {
         return;
       }
       v.submitting = true;
-      let dt = {};
+      let dt = _.isPlainObject(this.params) ? this.params : {};
       dt[v.paramName] = v.subData;
       v.$http.post(v.url, dt)
        .then(resp => {
