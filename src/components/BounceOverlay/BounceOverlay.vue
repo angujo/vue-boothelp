@@ -32,7 +32,7 @@ export default {
         return;
       }
       v.submitting = true;
-      let dt = _.isPlainObject(this.params) ? this.params : {};
+      let dt = _.isPlainObject(v.params) ? v.params : {};
       dt[v.paramName] = v.subData;
       v.$http.post(v.url, dt)
        .then(resp => {
